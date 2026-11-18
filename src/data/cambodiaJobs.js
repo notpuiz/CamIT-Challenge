@@ -1,0 +1,495 @@
+export const CAMBODIA_LOCATIONS = [
+  'All locations',
+  'Phnom Penh',
+  'Siem Reap',
+  'Sihanoukville',
+  'Battambang',
+  'Kampot',
+  'Poipet',
+]
+
+export const JOB_CATEGORIES = [
+  'All industries',
+  'Tech & IT',
+  'Banking & Finance',
+  'Marketing & Sales',
+  'Design & Creative',
+  'Hospitality & Tourism',
+  'Operations & Logistics',
+  'Retail & Service',
+]
+
+export const WORK_MODES = ['All modes', 'On-site', 'Hybrid', 'Remote']
+
+export const EXPERIENCE_LEVELS = ['All levels', 'Entry-level', 'Mid-level', 'Senior']
+
+export const JOB_TYPES = ['Full-time', 'Part-time', 'Contract', 'Internship']
+
+export const APPLICATION_STATUSES = ['New', 'Shortlisted', 'Interview', 'Offer', 'Declined']
+
+export const INITIAL_JOBS = [
+  {
+    id: 'job-1',
+    title: 'Senior Frontend Engineer',
+    titleKm: 'វិស្វករផ្នែកខាងមុខជាន់ខ្ពស់ (Frontend)',
+    company: 'Mekong Digital Labs',
+    companyInitials: 'MD',
+    category: 'Tech & IT',
+    location: 'Phnom Penh',
+    district: 'BKK1',
+    districtKm: 'បឹងកេងកង១',
+    workMode: 'Hybrid',
+    jobType: 'Full-time',
+    experienceLevel: 'Senior',
+    currency: 'USD',
+    salaryMin: 1600,
+    salaryMax: 2400,
+    postedLabel: 'Today',
+    summary:
+      'Lead our Vue 3 and Tailwind web platform powering digital payments and merchant dashboards across Cambodia.',
+    summaryKm:
+      'ដឹកនាំការអភិវឌ្ឍប្រព័ន្ធគេហទំព័រ Vue 3 និង Tailwind សម្រាប់ការទូទាត់ឌីជីថល និងផ្ទាំងគ្រប់គ្រងអាជីវករទូទាំងកម្ពុជា។',
+    responsibilities: [
+      'Architect fast, accessible web interfaces with Vue 3 and TypeScript.',
+      'Partner closely with product designers in BKK1 to ship polished customer flows.',
+      'Mentor junior frontend engineers through code reviews and technical pairing.',
+    ],
+    responsibilitiesKm: [
+      'រៀបចំស្ថាបត្យកម្មផ្ទាំងគេហទំព័រដំណើរការលឿន និងងាយស្រួលប្រើដោយប្រើ Vue 3 និង TypeScript។',
+      'សហការយ៉ាងជិតស្និទ្ធជាមួយអ្នករចនាផលិតផលនៅបឹងកេងកង១ ដើម្បីផលិតលំហូរប្រើប្រាស់ដ៏រលូន។',
+      'ណែនាំវិស្វករវ័យក្មេងតាមរយៈការត្រួតពិនិត្យកូដ និងការសរសេរកូដរួមគ្នា។',
+    ],
+    requirements: [
+      '4+ years of production experience with Vue 3 or React and modern CSS.',
+      'Strong eye for responsive design, performance budgets, and accessibility.',
+      'Comfortable communicating in Khmer and English with cross-functional teams.',
+    ],
+    requirementsKm: [
+      'មានបទពិសោធន៍ 4+ ឆ្នាំជាមួយ Vue 3 ឬ React និង CSS សម័យទំនើប។',
+      'យល់ច្បាស់អំពីការរចនាសម្រាប់គ្រប់ទំហំអេក្រង់ ល្បឿនដំណើរការ និងភាពងាយស្រួលប្រើប្រាស់។',
+      'អាចទំនាក់ទំនងជាភាសាខ្មែរ និងអង់គ្លេសបានល្អជាមួយក្រុមការងារចម្រុះ។',
+    ],
+    benefits: [
+      '13th-month bonus + NSSF & private medical insurance',
+      '3 days in BKK1 studio, 2 days remote per week',
+      'Annual learning & hardware allowance',
+    ],
+    benefitsKm: [
+      'ប្រាក់ឧបត្ថម្ភខែទី១៣ + បេឡាជាតិរបបសន្តិសុខសង្គម (ប.ស.ស) និងធានារ៉ាប់រងសុខភាពឯកជន',
+      'ធ្វើការនៅការិយាល័យបឹងកេងកង១ ចំនួន ៣ ថ្ងៃ និងពីចម្ងាយ ២ ថ្ងៃក្នុងមួយសប្តាហ៍',
+      'កញ្ចប់ថវិកាសម្រាប់ការរៀនសូត្រ និងឧបករណ៍ការងារប្រចាំឆ្នាំ',
+    ],
+    ownerEmail: 'hr@mekonglabs.kh',
+  },
+  {
+    id: 'job-2',
+    title: 'SME Relationship Officer',
+    titleKm: 'មន្ត្រីទំនាក់ទំនងអាជីវកម្មខ្នាតតូច និងមធ្យម (SME)',
+    company: 'Phnom Penh Trust Bank',
+    companyInitials: 'PT',
+    category: 'Banking & Finance',
+    location: 'Phnom Penh',
+    district: 'Daun Penh',
+    districtKm: 'ដូនពេញ',
+    workMode: 'On-site',
+    jobType: 'Full-time',
+    experienceLevel: 'Mid-level',
+    currency: 'USD',
+    salaryMin: 700,
+    salaryMax: 1100,
+    postedLabel: '1d ago',
+    summary:
+      'Support local business owners in Phnom Penh with working-capital loans, merchant banking, and KHQR settlement tools.',
+    summaryKm:
+      'គាំទ្រម្ចាស់អាជីវកម្មក្នុងរាជធានីភ្នំពេញជាមួយឥណទានបង្វិល សេវាធនាគារពាណិជ្ជកម្ម និងប្រព័ន្ធទូទាត់ KHQR។',
+    responsibilities: [
+      'Build trusted relationships with SME founders across retail, F&B, and distribution.',
+      'Evaluate financial statements and prepare clear credit proposals.',
+      'Guide business clients on digital banking and payroll solutions.',
+    ],
+    responsibilitiesKm: [
+      'កសាងទំនាក់ទំនងជឿទុកចិត្តជាមួយម្ចាស់អាជីវកម្មលក់រាយ ភោជនីយដ្ឋាន និងក្រុមហ៊ុនចែកចាយ។',
+      'វាយតម្លៃរបាយការណ៍ហិរញ្ញវត្ថុ និងរៀបចំសំណើឥណទានច្បាស់លាស់។',
+      'ណែនាំអតិថិជនអាជីវកម្មអំពីសេវាធនាគារឌីជីថល និងការបើកប្រាក់ខែតាមប្រព័ន្ធ។',
+    ],
+    requirements: [
+      'Bachelor degree in Finance, Banking, or Accounting.',
+      '2+ years in commercial lending or SME banking in Cambodia.',
+      'Fluency in Khmer; working proficiency in English.',
+    ],
+    requirementsKm: [
+      'សញ្ញាបត្របរិញ្ញាបត្រផ្នែកហិរញ្ញវត្ថុ ធនាគារ ឬគណនេយ្យ។',
+      'មានបទពិសោធន៍ 2+ ឆ្នាំផ្នែកឥណទានពាណិជ្ជកម្ម ឬធនាគារ SME នៅកម្ពុជា។',
+      'ចេះភាសាខ្មែរស្ទាត់ជំនាញ និងអាចប្រើប្រាស់ភាសាអង់គ្លេសក្នុងការងារបានល្អ។',
+    ],
+    benefits: [
+      'Performance commission & annual bonus',
+      'NSSF coverage and staff preferential loan rates',
+      'Structured career path to Senior Relationship Manager',
+    ],
+    benefitsKm: [
+      'ប្រាក់កម្រៃជើងសាតាមស្នាដៃ និងប្រាក់រង្វាន់ប្រចាំឆ្នាំ',
+      'ការការពារ ប.ស.ស និងអត្រាការប្រាក់ពិសេសសម្រាប់បុគ្គលិក',
+      'ឱកាសឡើងតំណែងជាប្រធានគ្រប់គ្រងទំនាក់ទំនងជាន់ខ្ពស់',
+    ],
+    ownerEmail: 'careers@pptrust.kh',
+  },
+  {
+    id: 'job-3',
+    title: 'Digital Marketing Specialist',
+    titleKm: 'អ្នកឯកទេសទីផ្សារឌីជីថល',
+    company: 'Angkor Craft & Co.',
+    companyInitials: 'AC',
+    category: 'Marketing & Sales',
+    location: 'Phnom Penh',
+    district: 'Toul Tom Poung',
+    districtKm: 'ទួលទំពូង',
+    workMode: 'Hybrid',
+    jobType: 'Full-time',
+    experienceLevel: 'Mid-level',
+    currency: 'USD',
+    salaryMin: 650,
+    salaryMax: 950,
+    postedLabel: '2d ago',
+    summary:
+      'Own paid social, TikTok storytelling, and seasonal campaigns for Cambodia-made lifestyle goods and e-commerce.',
+    summaryKm:
+      'គ្រប់គ្រងការផ្សព្វផ្សាយបង់ប្រាក់ មាតិកា TikTok និងយុទ្ធនាការតាមរដូវកាលសម្រាប់ផលិតផលសិប្បកម្ម និងអាជីវកម្មអនឡាញកម្ពុជា។',
+    responsibilities: [
+      'Plan and optimize Facebook, Instagram, and TikTok campaigns for local audiences.',
+      'Collaborate with photographers and creators to produce Khmer-first video stories.',
+      'Track conversion funnel metrics and report weekly ROI to leadership.',
+    ],
+    responsibilitiesKm: [
+      'រៀបចំផែនការ និងបង្កើនប្រសិទ្ធភាពការផ្សាយពាណិជ្ជកម្មលើ Facebook, Instagram និង TikTok។',
+      'សហការជាមួយអ្នកថតរូប និងអ្នកបង្កើតមាតិកាដើម្បីផលិតវីដេអូជាភាសាខ្មែរ។',
+      'តាមដានទិន្នន័យការលក់ និងរាយការណ៍លទ្ធផលប្រចាំសប្តាហ៍ជូនថ្នាក់ដឹកនាំ។',
+    ],
+    requirements: [
+      '2+ years running paid social and organic growth campaigns in Cambodia.',
+      'Hands-on experience with Meta Ads Manager and basic analytics.',
+      'Strong Khmer copywriting and visual sense.',
+    ],
+    requirementsKm: [
+      'មានបទពិសោធន៍ 2+ ឆ្នាំក្នុងការគ្រប់គ្រងយុទ្ធនាការទីផ្សារលើបណ្តាញសង្គមនៅកម្ពុជា។',
+      'មានជំនាញប្រើប្រាស់ Meta Ads Manager និងការវិភាគទិន្នន័យជាក់ស្តែង។',
+      'ពូកែសរសេរអត្ថបទផ្សព្វផ្សាយជាភាសាខ្មែរ និងមានគំនិតរចនារូបភាពល្អ។',
+    ],
+    benefits: [
+      'Hybrid schedule from our Toul Tom Poung workspace',
+      'Quarterly campaign performance incentives',
+      'Employee discount on all Angkor Craft collections',
+    ],
+    benefitsKm: [
+      'ម៉ោងការងារចម្រុះនៅការិយាល័យទួលទំពូង',
+      'ប្រាក់លើកទឹកចិត្តតាមលទ្ធផលយុទ្ធនាការប្រចាំត្រីមាស',
+      'ការបញ្ចុះតម្លៃពិសេសសម្រាប់បុគ្គលិកលើផលិតផល Angkor Craft ទាំងអស់',
+    ],
+    ownerEmail: 'hr@mekonglabs.kh',
+  },
+  {
+    id: 'job-4',
+    title: 'Guest Experience Supervisor',
+    titleKm: 'ប្រធានផ្នែកបម្រើសេវាកម្មភ្ញៀវ',
+    company: 'Lotus Heritage Resort',
+    companyInitials: 'LH',
+    category: 'Hospitality & Tourism',
+    location: 'Siem Reap',
+    district: 'Old French Quarter',
+    districtKm: 'តំបន់ផ្សារចាស់',
+    workMode: 'On-site',
+    jobType: 'Full-time',
+    experienceLevel: 'Mid-level',
+    currency: 'KHR',
+    salaryMin: 2200000,
+    salaryMax: 3000000,
+    postedLabel: '3d ago',
+    summary:
+      'Lead front-of-house hospitality, concierge curations, and Angkor tour arrangements for international and domestic guests.',
+    summaryKm:
+      'ដឹកនាំសេវាទទួលភ្ញៀវ ការរៀបចំដំណើរកម្សាន្តប្រាសាទអង្គរ និងបទពិសោធន៍ស្នាក់នៅសម្រាប់ភ្ញៀវជាតិ និងអន្តរជាតិ។',
+    responsibilities: [
+      'Coordinate seamless check-ins, VIP welcomes, and temple itinerary planning.',
+      'Coach a front-desk team of 8 associates to maintain warm Khmer hospitality.',
+      'Resolve guest requests quickly and maintain 4.9+ review standards.',
+    ],
+    responsibilitiesKm: [
+      'សម្របសម្រួលការចុះឈ្មោះចូលស្នាក់នៅ ការស្វាគមន៍ភ្ញៀវពិសេស និងកាលវិភាគទស្សនាប្រាសាទ។',
+      'បណ្តុះបណ្តាលក្រុមទទួលភ្ញៀវចំនួន ៨ នាក់ ដើម្បីរក្សាបដិសណ្ឋារកិច្ចខ្មែរដ៏កក់ក្តៅ។',
+      'ដោះស្រាយសំណូមពរភ្ញៀវបានរហ័ស និងរក្សាកម្រិតវាយតម្លៃ 4.9+ ជានិច្ច។',
+    ],
+    requirements: [
+      '2+ years in boutique hotel or resort front-office supervision.',
+      'Fluent in Khmer and English; additional languages are a plus.',
+      'Warm presence and calm problem-solving during peak travel seasons.',
+    ],
+    requirementsKm: [
+      'មានបទពិសោធន៍ 2+ ឆ្នាំជាអ្នកដឹកនាំផ្នែកទទួលភ្ញៀវនៅសណ្ឋាគារ ឬរីសត។',
+      'ចេះភាសាខ្មែរ និងអង់គ្លេសស្ទាត់ (ចេះភាសាបន្ថែមជាគុណសម្បត្តិ)។',
+      'មានភាពរួសរាយរាក់ទាក់ និងចេះដោះស្រាយបញ្ហាដោយស្ងប់ស្ងាត់ក្នុងរដូវភ្ញៀវច្រើន។',
+    ],
+    benefits: [
+      'Monthly service charge share + duty meals',
+      'NSSF and annual health checkup',
+      'Paid public holidays & staff accommodation support',
+    ],
+    benefitsKm: [
+      'ចំណែកថ្លៃសេវាប្រចាំខែ (Service Charge) + អាហារពេលធ្វើការ',
+      'ប.ស.ស និងការពិនិត្យសុខភាពប្រចាំឆ្នាំ',
+      'ថ្ងៃឈប់សម្រាកបុណ្យជាតិមានប្រាក់ឈ្នួល និងការគាំទ្រកន្លែងស្នាក់នៅ',
+    ],
+    ownerEmail: 'talent@lotusresort.kh',
+  },
+  {
+    id: 'job-5',
+    title: 'UI/UX Product Designer',
+    titleKm: 'អ្នករចនាផលិតផល UI/UX',
+    company: 'Sabay Cloud Studio',
+    companyInitials: 'SC',
+    category: 'Design & Creative',
+    location: 'Phnom Penh',
+    district: 'Chroy Changvar',
+    districtKm: 'ជ្រោយចង្វារ',
+    workMode: 'Remote',
+    jobType: 'Full-time',
+    experienceLevel: 'Mid-level',
+    currency: 'USD',
+    salaryMin: 900,
+    salaryMax: 1400,
+    postedLabel: '5d ago',
+    summary:
+      'Design clean mobile-first interfaces and reusable design systems for Cambodian SaaS and logistics products.',
+    summaryKm:
+      'រចនាផ្ទាំងកម្មវិធីទូរស័ព្ទ និងគេហទំព័រដ៏ស្អាតងាយស្រួលប្រើ សម្រាប់ផលិតផល SaaS និងភស្តុភារនៅកម្ពុជា។',
+    responsibilities: [
+      'Conduct lightweight user interviews with Khmer-speaking business users.',
+      'Craft Figma prototypes and clear handoff specs for Vue and mobile engineers.',
+      'Maintain typography, spacing, and dual-currency display patterns across products.',
+    ],
+    responsibilitiesKm: [
+      'សម្ភាសអ្នកប្រើប្រាស់អាជីវកម្មនៅកម្ពុជាដើម្បីយល់ពីតម្រូវការជាក់ស្តែង។',
+      'បង្កើតគំរូ Figma និងឯកសារបញ្ជូនច្បាស់លាស់សម្រាប់វិស្វករ Vue និងទូរស័ព្ទ។',
+      'រក្សាស្តង់ដារពុម្ពអក្សរខ្មែរ គម្លាត និងការបង្ហាញប្រាក់ដុល្លារ-រៀលឱ្យស្មើភាពគ្នា។',
+    ],
+    requirements: [
+      'Portfolio showcasing shipped web or mobile product work.',
+      'Strong mastery of Figma components, variables, and interactive flows.',
+      'Collaborative mindset with engineers and product managers.',
+    ],
+    requirementsKm: [
+      'មានស្នាដៃ (Portfolio) បង្ហាញពីការរចនាកម្មវិធីគេហទំព័រ ឬទូរស័ព្ទដែលបានដាក់ឱ្យប្រើប្រាស់។',
+      'ស្ទាត់ជំនាញ Figma components, variables និង interactive flows។',
+      'ចេះសហការល្អជាមួយវិស្វករ និងអ្នកគ្រប់គ្រងផលិតផល។',
+    ],
+    benefits: [
+      'Fully remote across Cambodia with optional Chroy Changvar hub access',
+      'MacBook Pro provided + internet stipend',
+      'Flexible hours and 18 days paid annual leave',
+    ],
+    benefitsKm: [
+      'ធ្វើការពីចម្ងាយទូទាំងកម្ពុជា ឬចូលប្រើការិយាល័យជ្រោយចង្វារតាមតម្រូវការ',
+      'ផ្តល់ជូន MacBook Pro + ប្រាក់ឧបត្ថម្ភអ៊ីនធឺណិត',
+      'ម៉ោងការងារបត់បែន និងថ្ងៃឈប់សម្រាកប្រចាំឆ្នាំ ១៨ ថ្ងៃ',
+    ],
+    ownerEmail: 'hr@mekonglabs.kh',
+  },
+  {
+    id: 'job-6',
+    title: 'Logistics & Customs Coordinator',
+    titleKm: 'អ្នកសម្របសម្រួលភស្តុភារ និងគយ',
+    company: 'Kampuchea ExpressPort',
+    companyInitials: 'KE',
+    category: 'Operations & Logistics',
+    location: 'Sihanoukville',
+    district: 'Autonomous Port',
+    districtKm: 'កំពង់ផែស្វយ័ត',
+    workMode: 'On-site',
+    jobType: 'Full-time',
+    experienceLevel: 'Entry-level',
+    currency: 'USD',
+    salaryMin: 500,
+    salaryMax: 750,
+    postedLabel: 'Oct 28',
+    summary:
+      'Coordinate container clearance, freight documentation, and Phnom Penh–Sihanoukville expressway dispatch schedules.',
+    summaryKm:
+      'សម្របសម្រួលឯកសារនាំចេញនាំចូល ការបញ្ចេញទំនិញពីកំពង់ផែ និងកាលវិភាគដឹកជញ្ជូនតាមផ្លូវល្បឿនលឿនភ្នំពេញ–ព្រះសីហនុ។',
+    responsibilities: [
+      'Prepare bills of lading, packing lists, and customs clearance paperwork.',
+      'Track port arrivals and coordinate truck dispatches with warehouse supervisors.',
+      'Update clients promptly on shipment milestones.',
+    ],
+    responsibilitiesKm: [
+      'រៀបចំឯកសារ Bill of Lading, Packing List និងឯកសារបែបបទគយ។',
+      'តាមដានកាលវិភាគនាវាចូលផែ និងសម្របសម្រួលរថយន្តដឹកទំនិញជាមួយឃ្លាំង។',
+      'ជូនដំណឹងដល់អតិថិជនទាន់ពេលវេលាអំពីស្ថានភាពដឹកជញ្ជូន។',
+    ],
+    requirements: [
+      'Diploma or Bachelor degree in Supply Chain, Business, or related field.',
+      'Strong attention to detail with Excel/Google Sheets and Khmer/English documents.',
+      'Fresh graduates eager to build a logistics career are encouraged to apply.',
+    ],
+    requirementsKm: [
+      'សញ្ញាបត្របរិញ្ញាបត្ររង ឬបរិញ្ញាបត្រផ្នែកភស្តុភារ ពាណិជ្ជកម្ម ឬជំនាញពាក់ព័ន្ធ។',
+      'ប្រុងប្រយ័ត្នខ្ពស់លើឯកសារ Excel/Google Sheets ជាភាសាខ្មែរ និងអង់គ្លេស។',
+      'និស្សិតទើបបញ្ចប់ការសិក្សាដែលចង់ចាប់ផ្តើមអាជីពផ្នែកដឹកជញ្ជូនត្រូវបានលើកទឹកចិត្តឱ្យដាក់ពាក្យ។',
+    ],
+    benefits: [
+      'On-the-job customs mentorship and certification support',
+      'Transport allowance & NSSF insurance',
+      'Overtime compensation and annual bonus',
+    ],
+    benefitsKm: [
+      'ការបណ្តុះបណ្តាលផ្ទាល់លើបែបបទគយ និងការគាំទ្រវិញ្ញាបនបត្រវិជ្ជាជីវៈ',
+      'ប្រាក់ឧបត្ថម្ភធ្វើដំណើរ និងធានារ៉ាប់រង ប.ស.ស',
+      'ប្រាក់ថែមម៉ោង និងប្រាក់លើកទឹកចិត្តប្រចាំឆ្នាំ',
+    ],
+    ownerEmail: 'ops@kampucheaexpress.kh',
+  },
+  {
+    id: 'job-7',
+    title: 'Cafe Shift Lead & Barista Trainer',
+    titleKm: 'ប្រធានវេនហាងកាហ្វេ និងគ្រូបង្វឹកបារីស្តា',
+    company: 'Brown & Bean Roasters',
+    companyInitials: 'BB',
+    category: 'Retail & Service',
+    location: 'Battambang',
+    district: 'Central Market',
+    districtKm: 'ផ្សារណាត់',
+    workMode: 'On-site',
+    jobType: 'Full-time',
+    experienceLevel: 'Entry-level',
+    currency: 'KHR',
+    salaryMin: 1400000,
+    salaryMax: 1900000,
+    postedLabel: 'Oct 24',
+    summary:
+      'Run daily cafe floor operations, dial in espresso quality, and mentor part-time baristas at our flagship Battambang branch.',
+    summaryKm:
+      'គ្រប់គ្រងប្រតិបត្តិការប្រចាំថ្ងៃក្នុងហាងកាហ្វេ រក្សាគុណភាពរសជាតិ និងបង្វឹកបារីស្តាថ្មីនៅសាខាបាត់ដំបង។',
+    responsibilities: [
+      'Lead opening or closing shifts and ensure consistent drink quality.',
+      'Train new baristas on espresso calibration, milk texturing, and POS workflow.',
+      'Monitor daily bean and pastry inventory levels.',
+    ],
+    responsibilitiesKm: [
+      'ដឹកនាំវេនបើក ឬបិទហាង និងធានាគុណភាពភេសជ្ជៈឱ្យមានស្តង់ដារដូចគ្នា។',
+      'បង្វឹកបារីស្តាថ្មីអំពីការឆុងកាហ្វេ ការប្រើម៉ាស៊ីន និងប្រព័ន្ធគិតលុយ POS។',
+      'ត្រួតពិនិត្យស្តុកគ្រាប់កាហ្វេ និងនំប្រចាំថ្ងៃ។',
+    ],
+    requirements: [
+      '1+ year working in specialty coffee or fast-paced F&B service.',
+      'Friendly leadership style and reliable morning/weekend availability.',
+      'Basic math and POS cash-handling accuracy.',
+    ],
+    requirementsKm: [
+      'មានបទពិសោធន៍ 1+ ឆ្នាំនៅក្នុងហាងកាហ្វេ ឬវិស័យភោជនីយដ្ឋាន។',
+      'មានភាពរួសរាយ ទំនួលខុសត្រូវ និងអាចធ្វើការវេនព្រឹក ឬចុងសប្តាហ៍បាន។',
+      'ចេះគណនាលេខ និងគ្រប់គ្រងសាច់ប្រាក់លើ POS បានត្រឹមត្រូវ។',
+    ],
+    benefits: [
+      'Monthly sales target bonus + free staff drinks',
+      'Barista skill certification training',
+      'NSSF insurance and Khmer New Year bonus',
+    ],
+    benefitsKm: [
+      'ប្រាក់លើកទឹកចិត្តតាមគោលដៅលក់ប្រចាំខែ + ភេសជ្ជៈឥតគិតថ្លៃសម្រាប់បុគ្គលិក',
+      'វគ្គបណ្តុះបណ្តាលជំនាញបារីស្តាមានវិញ្ញាបនបត្រ',
+      'ធានារ៉ាប់រង ប.ស.ស និងប្រាក់រង្វាន់ចូលឆ្នាំខ្មែរ',
+    ],
+    ownerEmail: 'jobs@brownbean.kh',
+  },
+  {
+    id: 'job-8',
+    title: 'Network & IT Support Technician',
+    titleKm: 'អ្នកបច្ចេកទេសបណ្តាញ និងជំនួយការព័ត៌មានវិទ្យា (IT)',
+    company: 'Coastal Fiber Telecom',
+    companyInitials: 'CF',
+    category: 'Tech & IT',
+    location: 'Kampot',
+    district: 'Riverside',
+    districtKm: 'មាត់ព្រែកកំពត',
+    workMode: 'On-site',
+    jobType: 'Full-time',
+    experienceLevel: 'Entry-level',
+    currency: 'KHR',
+    salaryMin: 1800000,
+    salaryMax: 2600000,
+    postedLabel: 'Oct 21',
+    summary:
+      'Maintain office Wi-Fi networks, fiber CPE routers, and on-site IT workstations for hotels and SMEs across Kampot and Kep.',
+    summaryKm:
+      'ថែទាំប្រព័ន្ធ Wi-Fi រ៉ោតទ័រ Fiber និងកុំព្យូទ័រការិយាល័យសម្រាប់សណ្ឋាគារ និងអាជីវកម្មនៅកំពត និងកែប។',
+    responsibilities: [
+      'Install and troubleshoot MikroTik/Ubiquiti routers and mesh Wi-Fi systems.',
+      'Respond to local business IT tickets and document network configurations.',
+      'Perform preventive checks on fiber links and backup power units.',
+    ],
+    responsibilitiesKm: [
+      'ដំឡើង និងជួសជុលរ៉ោតទ័រ MikroTik/Ubiquiti និងប្រព័ន្ធ Mesh Wi-Fi។',
+      'ឆ្លើយតបបញ្ហាបច្ចេកទេសជូនអតិថិជន និងកត់ត្រាការកំណត់រចនាសម្ព័ន្ធបណ្តាញ។',
+      'ត្រួតពិនិត្យខ្សែ Fiber និងឧបករណ៍ភ្លើងបម្រុងជាប្រចាំ។',
+    ],
+    requirements: [
+      'Associate or Bachelor degree in IT, Networking, or Computer Science.',
+      'Understanding of TCP/IP, VLANs, and Windows/macOS troubleshooting.',
+      'Valid motorbike license for local client visits around Kampot.',
+    ],
+    requirementsKm: [
+      'សញ្ញាបត្របរិញ្ញាបត្ររង ឬបរិញ្ញាបត្រផ្នែក IT បណ្តាញ ឬវិទ្យាសាស្ត្រកុំព្យូទ័រ។',
+      'យល់ដឹងអំពី TCP/IP, VLAN និងការជួសជុល Windows/macOS។',
+      'មានប័ណ្ណបើកបរម៉ូតូសម្រាប់ចុះជួបអតិថិជនក្នុងខេត្តកំពត។',
+    ],
+    benefits: [
+      'Fuel & phone allowance',
+      'Hands-on MikroTik certification sponsorship',
+      'NSSF coverage + Pchum Ben and Khmer New Year bonuses',
+    ],
+    benefitsKm: [
+      'ប្រាក់ឧបត្ថម្ភសាំង និងកាតទូរស័ព្ទ',
+      'គាំទ្រថ្លៃប្រឡងយកវិញ្ញាបនបត្រ MikroTik',
+      'ធានារ៉ាប់រង ប.ស.ស + ប្រាក់ឧបត្ថម្ភភ្ជុំបិណ្ឌ និងចូលឆ្នាំខ្មែរ',
+    ],
+    ownerEmail: 'hr@coastalfiber.kh',
+  },
+]
+
+export const INITIAL_APPLICATIONS = [
+  {
+    id: 'app-1',
+    jobId: 'job-1',
+    fullName: 'Sokha Chan',
+    email: 'sokha@camit.kh',
+    phone: '+855 12 345 678',
+    telegram: '@sokha_chan',
+    portfolioUrl: 'https://sokha.dev',
+    portfolioProjects: [
+      {
+        id: 'proj-seed-1',
+        title: 'KHQR Merchant Analytics Portal',
+        role: 'Lead Frontend Engineer',
+        url: 'https://khqr-demo.sokha.dev',
+        techStack: ['Vue 3', 'Tailwind CSS', 'Pinia'],
+        description:
+          'Bilingual USD & KHR settlement dashboard used by 450+ retail merchants in Phnom Penh.',
+      },
+    ],
+    cvFileName: 'Sokha_Chan_Frontend_CV.pdf',
+    coverNote:
+      '5 years building Vue 3 & Tailwind financial portals in Phnom Penh. Excited to help Mekong Digital Labs scale your merchant dashboard.',
+    appliedAt: '1d ago',
+    status: 'Shortlisted',
+  },
+  {
+    id: 'app-2',
+    jobId: 'job-3',
+    fullName: 'Dara Meas',
+    email: 'dara.meas@example.kh',
+    phone: '+855 89 654 321',
+    cvFileName: 'Dara_Meas_Marketing_Resume.pdf',
+    coverNote:
+      'Led TikTok and Meta campaigns for two Phnom Penh retail brands, growing online sales by 42% over six months.',
+    appliedAt: '2d ago',
+    status: 'New',
+  },
+]
