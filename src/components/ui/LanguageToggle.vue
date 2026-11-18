@@ -9,11 +9,11 @@ const { locale, toggleLocale } = useI18n()
     type="button"
     :aria-label="locale === 'km' ? 'Switch to English' : 'ប្តូរទៅភាសាខ្មែរ (Switch to Khmer)'"
     :title="locale === 'km' ? 'Switch to English' : 'ប្តូរទៅភាសាខ្មែរ (Switch to Khmer)'"
-    class="lang-toggle-btn relative inline-flex h-9 w-[4.75rem] cursor-pointer items-center justify-center gap-1.5 rounded-lg bg-white px-2.5 text-xs font-medium text-zinc-700 shadow-[0_1px_2px_rgba(0,0,0,0.04)] ring-1 ring-zinc-950/10 select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 dark:bg-zinc-900 dark:text-zinc-200 dark:shadow-[0_1px_2px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.06)] dark:ring-white/12 dark:focus-visible:outline-zinc-200"
+    class="lang-toggle-btn relative inline-flex h-9 w-12 cursor-pointer items-center justify-center gap-1.5 rounded-lg bg-white px-2 text-xs font-medium text-zinc-700 shadow-[0_1px_2px_rgba(0,0,0,0.04)] ring-1 ring-zinc-950/10 select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 sm:w-[4.75rem] sm:px-2.5 dark:bg-zinc-900 dark:text-zinc-200 dark:shadow-[0_1px_2px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.06)] dark:ring-white/12 dark:focus-visible:outline-zinc-200"
     @click="toggleLocale"
   >
     <svg
-      class="h-3.5 w-3.5 shrink-0 text-zinc-500 dark:text-zinc-400"
+      class="hidden h-3.5 w-3.5 shrink-0 text-zinc-500 sm:block dark:text-zinc-400"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

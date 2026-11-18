@@ -41,19 +41,19 @@ function handleLogout() {
   <header
     class="sticky top-0 z-30 border-b border-zinc-200/80 bg-white/85 backdrop-blur-md dark:border-zinc-800/80 dark:bg-zinc-950/85"
   >
-    <div class="flex h-16 w-full items-center justify-between gap-2 px-4 sm:gap-3 sm:px-6 lg:px-8">
+    <div class="flex h-16 w-full items-center justify-between gap-2 px-3 sm:gap-3 sm:px-6 lg:px-8">
       <!-- Brand + Primary Navigation -->
-      <div class="flex items-center gap-5">
+      <div class="flex shrink-0 items-center gap-5">
         <RouterLink
           :to="{ name: 'jobs' }"
-          class="nav-brand-btn inline-flex items-center gap-2 rounded-lg py-1 pr-1 select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 dark:focus-visible:outline-zinc-200"
+          class="nav-brand-btn inline-flex shrink-0 items-center gap-1.5 rounded-lg py-1 pr-1 select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 sm:gap-2 dark:focus-visible:outline-zinc-200"
         >
           <span
-            class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-zinc-900 text-white shadow-[0_1px_2px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.14)] dark:bg-zinc-100 dark:text-zinc-900 dark:shadow-[0_1px_2px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.7)]"
+            class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-zinc-900 text-white shadow-[0_1px_2px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.14)] sm:h-8 sm:w-8 dark:bg-zinc-100 dark:text-zinc-900 dark:shadow-[0_1px_2px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.7)]"
             aria-hidden="true"
           >
             <svg
-              class="h-4 w-4 shrink-0"
+              class="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -70,7 +70,9 @@ function handleLogout() {
               <path d="M16.62 12 10.88 21.94" />
             </svg>
           </span>
-          <span class="text-base font-semibold tracking-[-0.02em] text-zinc-900 dark:text-zinc-50">
+          <span
+            class="text-sm font-semibold tracking-[-0.02em] text-zinc-900 sm:text-base dark:text-zinc-50"
+          >
             JobspaceKH
           </span>
         </RouterLink>
@@ -100,7 +102,7 @@ function handleLogout() {
       </div>
 
       <!-- Top-Right Controls: Language, Currency, Theme, Auth -->
-      <div class="flex items-center gap-1.5 sm:gap-2">
+      <div class="flex items-center gap-1 sm:gap-2">
         <LanguageToggle />
         <CurrencyToggle />
         <ThemeToggle />
@@ -115,11 +117,18 @@ function handleLogout() {
           </BaseButton>
           <BaseButton
             variant="primary"
-            class="whitespace-nowrap"
+            class="hidden whitespace-nowrap sm:inline-flex"
             @click="goToLogin('employer', '/employer')"
           >
-            <span class="hidden sm:inline">{{ t('nav.postJob') }}</span>
-            <span class="sm:hidden">{{ t('nav.signIn') }}</span>
+            {{ t('nav.postJob') }}
+          </BaseButton>
+          <BaseButton
+            variant="primary"
+            size="sm"
+            class="inline-flex whitespace-nowrap sm:hidden"
+            @click="goToLogin('seeker', '/')"
+          >
+            {{ t('nav.signIn') }}
           </BaseButton>
         </template>
 
@@ -157,7 +166,12 @@ function handleLogout() {
             </span>
           </RouterLink>
 
-          <BaseButton variant="secondary" class="whitespace-nowrap" @click="handleLogout">
+          <BaseButton
+            variant="secondary"
+            size="responsive"
+            class="whitespace-nowrap"
+            @click="handleLogout"
+          >
             {{ t('nav.signOut') }}
           </BaseButton>
         </template>

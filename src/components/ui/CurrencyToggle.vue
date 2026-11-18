@@ -23,7 +23,7 @@ const { setDisplayCurrency } = preferencesStore
       type="button"
       :aria-pressed="displayCurrency === 'USD'"
       :class="[
-        'currency-btn relative z-10 inline-flex h-8 cursor-pointer items-center justify-center rounded-[6px] px-2 text-xs font-medium tabular-nums focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-zinc-900 sm:px-2.5 dark:focus-visible:outline-zinc-200',
+        'currency-btn relative z-10 inline-flex h-8 cursor-pointer items-center justify-center rounded-[6px] px-1.5 text-xs font-medium tabular-nums focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-zinc-900 sm:px-2.5 dark:focus-visible:outline-zinc-200',
         displayCurrency === 'USD'
           ? 'text-zinc-900 dark:text-zinc-50'
           : 'text-zinc-500 dark:text-zinc-400',
@@ -38,7 +38,7 @@ const { setDisplayCurrency } = preferencesStore
       type="button"
       :aria-pressed="displayCurrency === 'KHR'"
       :class="[
-        'currency-btn relative z-10 inline-flex h-8 cursor-pointer items-center justify-center rounded-[6px] px-2 text-xs font-medium tabular-nums focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-zinc-900 sm:px-2.5 dark:focus-visible:outline-zinc-200',
+        'currency-btn relative z-10 inline-flex h-8 cursor-pointer items-center justify-center rounded-[6px] px-1.5 text-xs font-medium tabular-nums focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-zinc-900 sm:px-2.5 dark:focus-visible:outline-zinc-200',
         displayCurrency === 'KHR'
           ? 'text-zinc-900 dark:text-zinc-50'
           : 'text-zinc-500 dark:text-zinc-400',

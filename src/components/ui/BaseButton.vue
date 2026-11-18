@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, useAttrs } from 'vue'
 
 const props = defineProps({
   type: {
@@ -10,6 +10,11 @@ const props = defineProps({
     type: String,
     default: 'primary',
     validator: (value) => ['primary', 'secondary', 'ghost'].includes(value),
+  },
+  size: {
+    type: String,
+    default: 'md',
+    validator: (value) => ['sm', 'md', 'responsive'].includes(value),
   },
   loading: {
     type: Boolean,
@@ -23,6 +28,21 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+})
+
+const attrs = useAttrs()
+
+const hasCustomDisplay = computed(() => {
+  const raw = Array.isArray(attrs.class) ? attrs.class.join(' ') : String(attrs.class || '')
+  return /(?:^|\s)!?(?:hidden|flex|inline-flex|block|inline-block|grid|inline-grid)(?:\s|$)/.test(
+    raw,
+  )
+})
+
+const sizeClasses = computed(() => {
+  if (props.size === 'sm') return 'h-9 px-2.5 text-xs sm:px-3'
+  if (props.size === 'responsive') return 'h-9 px-2.5 text-xs sm:h-10 sm:px-4 sm:text-sm'
+  return 'h-10 px-4 text-sm'
 })
 
 const variantClasses = computed(() => {
@@ -42,7 +62,9 @@ const variantClasses = computed(() => {
     :disabled="disabled || loading"
     :aria-busy="loading"
     :class="[
-      'base-button relative inline-flex h-10 cursor-pointer items-center justify-center rounded-lg px-4 text-sm font-medium select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 disabled:cursor-not-allowed disabled:opacity-55 dark:focus-visible:outline-zinc-200',
+      'base-button relative cursor-pointer items-center justify-center rounded-lg font-medium select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 disabled:cursor-not-allowed disabled:opacity-55 dark:focus-visible:outline-zinc-200',
+      hasCustomDisplay ? '' : 'inline-flex',
+      sizeClasses,
       variantClasses,
       fullWidth ? 'w-full' : '',
     ]"
