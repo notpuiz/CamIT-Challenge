@@ -11,7 +11,7 @@ function delay(ms) {
 }
 
 function inferNameFromEmail(email) {
-  const local = String(email).split('@')[0] || 'CamIT Member'
+  const local = String(email).split('@')[0] || 'JobspaceKH Member'
   return local
     .split(/[._-]+/)
     .filter(Boolean)
@@ -232,7 +232,7 @@ export function useLoginForm() {
       } else {
         await finishSignIn({
           name: 'Sokha Chan',
-          email: 'sokha@camit.kh',
+          email: 'sokha@jobspace.kh',
           role: 'seeker',
           companyName: '',
           provider: 'Google',
@@ -265,7 +265,7 @@ export function useLoginForm() {
 
     await finishSignIn({
       name: 'Sokha Chan',
-      email: 'sokha@camit.kh',
+      email: 'sokha@jobspace.kh',
       role: 'seeker',
       companyName: '',
       rememberMe: true,

@@ -8,17 +8,17 @@ import {
   writeStorage,
 } from '@/services/apiClient'
 
-export const JOBS_STORAGE_KEY = 'camit-jobs-v1'
-export const SAVED_JOBS_STORAGE_KEY = 'camit-saved-jobs'
-export const APPLICATIONS_STORAGE_KEY = 'camit-applications-v1'
-export const PROFILES_STORAGE_KEY = 'camit-profiles-v1'
-export const ALERTS_STORAGE_KEY = 'camit-job-alerts-v1'
+export const JOBS_STORAGE_KEY = 'jobspacekh-jobs-v1'
+export const SAVED_JOBS_STORAGE_KEY = 'jobspacekh-saved-jobs'
+export const APPLICATIONS_STORAGE_KEY = 'jobspacekh-applications-v1'
+export const PROFILES_STORAGE_KEY = 'jobspacekh-profiles-v1'
+export const ALERTS_STORAGE_KEY = 'jobspacekh-job-alerts-v1'
 
 const SEED_BASE_TS = 1700000000000
 
 const DEFAULT_PROFILES = {
-  'sokha@camit.kh': {
-    email: 'sokha@camit.kh',
+  'sokha@jobspace.kh': {
+    email: 'sokha@jobspace.kh',
     fullName: 'Sokha Chan',
     headline: 'Senior Frontend Developer',
     phone: '+855 12 345 678',
@@ -90,7 +90,7 @@ export function slugifyCompany(name) {
 
 export function normalizeJobDto(raw, index = 0) {
   const title = String(raw?.title || '').trim()
-  const company = String(raw?.company || 'CamIT Employer').trim()
+  const company = String(raw?.company || 'JobspaceKH Employer').trim()
   const category = raw?.category || 'Tech & IT'
   const location = raw?.location || 'Phnom Penh'
   const district = String(raw?.district || 'City Center').trim()
@@ -127,7 +127,7 @@ export function normalizeJobDto(raw, index = 0) {
     title,
     company,
     companySlug: raw?.companySlug || slugifyCompany(company),
-    companyInitials: String(raw?.companyInitials || company.slice(0, 2) || 'CM').toUpperCase(),
+    companyInitials: String(raw?.companyInitials || company.slice(0, 2) || 'JS').toUpperCase(),
     category,
     location,
     district,
@@ -145,7 +145,7 @@ export function normalizeJobDto(raw, index = 0) {
     requirements,
     benefits,
     searchText,
-    ownerEmail: String(raw?.ownerEmail || 'hr@camit.kh').trim(),
+    ownerEmail: String(raw?.ownerEmail || 'hr@jobspace.kh').trim(),
   }
 }
 

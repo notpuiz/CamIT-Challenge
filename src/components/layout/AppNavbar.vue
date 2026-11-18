@@ -71,12 +71,7 @@ function handleLogout() {
             </svg>
           </span>
           <span class="text-base font-semibold tracking-[-0.02em] text-zinc-900 dark:text-zinc-50">
-            CamIT
-          </span>
-          <span
-            class="hidden rounded-md bg-zinc-100 px-1.5 py-0.5 text-[11px] font-medium text-zinc-600 ring-1 ring-zinc-950/[0.06] sm:inline-flex dark:bg-zinc-800/80 dark:text-zinc-300 dark:ring-white/10"
-          >
-            KH
+            JobspaceKH
           </span>
         </RouterLink>
 
@@ -149,7 +144,7 @@ function handleLogout() {
               {{
                 (currentUser.role === 'employer' ? currentUser.companyName : currentUser.name)
                   ?.slice(0, 1)
-                  .toUpperCase() || 'C'
+                  .toUpperCase() || 'J'
               }}
             </span>
             <span class="max-w-[120px] truncate font-medium text-zinc-900 dark:text-zinc-100">

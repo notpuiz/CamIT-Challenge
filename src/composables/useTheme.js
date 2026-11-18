@@ -1,6 +1,6 @@
 import { nextTick, ref } from 'vue'
 
-const STORAGE_KEY = 'camit-theme'
+const STORAGE_KEY = 'jobspacekh-theme'
 
 function resolveInitialTheme() {
   if (typeof document !== 'undefined' && document.documentElement.classList.contains('dark')) {

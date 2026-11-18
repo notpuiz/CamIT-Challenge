@@ -459,7 +459,7 @@ export const INITIAL_APPLICATIONS = [
     id: 'app-1',
     jobId: 'job-1',
     fullName: 'Sokha Chan',
-    email: 'sokha@camit.kh',
+    email: 'sokha@jobspace.kh',
     phone: '+855 12 345 678',
     telegram: '@sokha_chan',
     portfolioUrl: 'https://sokha.dev',

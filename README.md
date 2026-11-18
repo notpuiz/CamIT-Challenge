@@ -1,4 +1,4 @@
-# CamIT — Cambodia Job Discovery Platform
+# JobspaceKH — Cambodia Job Discovery Platform
 
 A bilingual (**English / ខ្មែរ**) job search and hiring web platform tailored for **Cambodia**, featuring live **$ USD / ៛ KHR** currency conversion, Cambodia monthly salary tax estimation, candidate profile & portfolio showcases, and a full employer workspace — running out-of-the-box in the browser via `localStorage` and ready to connect to any REST backend.
 
@@ -24,7 +24,7 @@ A bilingual (**English / ខ្មែរ**) job search and hiring web platform t
 
 Click the **Demo Job Seeker** or **Demo Company** quick preview buttons on `/login`:
 
-- **Job Seeker**: `sokha@camit.kh` (includes prefilled profile, portfolio projects, and a shortlisted application)
+- **Job Seeker**: `sokha@jobspace.kh` (includes prefilled profile, portfolio projects, and a shortlisted application)
 - **Employer / Company**: `hr@mekonglabs.kh` (owns published roles and can review incoming candidates & portfolios)
 
 ## Local Development

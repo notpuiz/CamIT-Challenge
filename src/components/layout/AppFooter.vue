@@ -38,18 +38,29 @@ function handleResetDemo() {
       <div>
         <div class="flex items-center gap-2">
           <span
-            class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-zinc-900 text-xs font-semibold text-white dark:bg-zinc-100 dark:text-zinc-900"
+            class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
             aria-hidden="true"
           >
-            C
+            <svg
+              class="h-3.5 w-3.5 shrink-0"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="9" />
+              <path d="M14.31 8 20.05 17.94" />
+              <path d="M9.69 8h11.48" />
+              <path d="M7.38 12 13.12 2.06" />
+              <path d="M9.69 16 3.95 6.06" />
+              <path d="M14.31 16H2.83" />
+              <path d="M16.62 12 10.88 21.94" />
+            </svg>
           </span>
           <span class="text-sm font-semibold tracking-[-0.02em] text-zinc-900 dark:text-zinc-50">
-            CamIT
-          </span>
-          <span
-            class="rounded bg-zinc-100 px-1.5 py-0.5 text-[10px] font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
-          >
-            KH
+            JobspaceKH
           </span>
         </div>
 

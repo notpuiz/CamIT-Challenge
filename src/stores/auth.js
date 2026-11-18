@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, reactive, ref } from 'vue'
 
-const USER_STORAGE_KEY = 'camit-user'
+const USER_STORAGE_KEY = 'jobspacekh-user'
 
 function loadSavedUser() {
   try {

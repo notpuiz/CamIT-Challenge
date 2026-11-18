@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-const CURRENCY_STORAGE_KEY = 'camit-currency'
-const LOCALE_STORAGE_KEY = 'camit-locale'
+const CURRENCY_STORAGE_KEY = 'jobspacekh-currency'
+const LOCALE_STORAGE_KEY = 'jobspacekh-locale'
 
 function loadSavedCurrency() {
   try {

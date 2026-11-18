@@ -288,7 +288,7 @@ export const useJobsStore = defineStore('jobs', () => {
   }
 
   async function createJobPosting(payload) {
-    const ownerEmail = authStore.currentUser?.email || 'employer@camit.kh'
+    const ownerEmail = authStore.currentUser?.email || 'employer@jobspace.kh'
     const created = await jobsApi.create({
       title: payload.title.trim(),
       company: payload.company.trim(),

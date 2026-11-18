@@ -10,17 +10,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
       try {
-        const saved = localStorage.getItem('camit-theme')
+        const saved = localStorage.getItem('jobspacekh-theme')
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
         const isDark = saved ? saved === 'dark' : prefersDark
         document.documentElement.classList.toggle('dark', isDark)
         const meta = document.getElementById('theme-color-meta')
         if (meta) meta.setAttribute('content', isDark ? '#09090b' : '#fafafa')
-        const savedLocale = localStorage.getItem('camit-locale')
+        const savedLocale = localStorage.getItem('jobspacekh-locale')
         document.documentElement.lang = savedLocale === 'km' ? 'km' : 'en'
       } catch {}
     </script>
-    <title>CamIT — Jobs Across Cambodia</title>
+    <title>JobspaceKH — Jobs Across Cambodia</title>
   </head>
   <body>
     <div id="app"></div>
