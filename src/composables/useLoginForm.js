@@ -1,8 +1,9 @@
-import { reactive, ref } from 'vue'
+import { onBeforeUnmount, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from '@/i18n/useI18n'
 import { useAuthStore } from '@/stores/auth'
 import { useJobsStore } from '@/stores/jobs'
+import { useToastStore } from '@/stores/toast'
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -25,6 +26,7 @@ export function useLoginForm() {
   const { t } = useI18n()
   const authStore = useAuthStore()
   const jobsStore = useJobsStore()
+  const toastStore = useToastStore()
 
   function resolveInitialRole() {
     if (route.query.role === 'employer') return 'employer'
@@ -72,6 +74,20 @@ export function useLoginForm() {
 
   const isSubmitting = ref(false)
   const isSocialLoading = ref(false)
+  const authenticatedUser = ref(null)
+  const shakeCount = ref(0)
+  let redirectTimer = null
+
+  function cancelPendingRedirect() {
+    if (redirectTimer) {
+      clearTimeout(redirectTimer)
+      redirectTimer = null
+    }
+  }
+
+  onBeforeUnmount(() => {
+    cancelPendingRedirect()
+  })
 
   function clearFieldError(field) {
     if (errorKeys[field]) {
@@ -144,7 +160,28 @@ export function useLoginForm() {
   }
 
   async function finishSignIn(userPayload) {
+    if (authenticatedUser.value) return
+
     authStore.setUser(userPayload)
+    authenticatedUser.value = userPayload
+
+    const prefersReducedMotion =
+      typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const waitMs = prefersReducedMotion ? 260 : 680
+
+    await new Promise((resolve) => {
+      redirectTimer = setTimeout(() => {
+        redirectTimer = null
+        resolve()
+      }, waitMs)
+    })
+
+    if (!authenticatedUser.value) return
+
+    toastStore.showToast({
+      title: t('toasts.signedInWelcome', { name: userPayload.name }),
+      tone: 'success',
+    })
 
     if (authStore.authIntent.reopenJobId) {
       const jobId = authStore.authIntent.reopenJobId
@@ -172,8 +209,11 @@ export function useLoginForm() {
   }
 
   async function handleSubmit() {
-    if (isSubmitting.value || isSocialLoading.value) return
-    if (!validate()) return
+    if (isSubmitting.value || isSocialLoading.value || authenticatedUser.value) return
+    if (!validate()) {
+      shakeCount.value += 1
+      return
+    }
 
     isSubmitting.value = true
     errorKeys.form = ''
@@ -212,7 +252,7 @@ export function useLoginForm() {
   }
 
   async function handleGoogleSignIn() {
-    if (isSubmitting.value || isSocialLoading.value) return
+    if (isSubmitting.value || isSocialLoading.value || authenticatedUser.value) return
 
     clearAllErrors()
     isSocialLoading.value = true
@@ -251,6 +291,7 @@ export function useLoginForm() {
   }
 
   async function quickDemoLogin(targetRole) {
+    if (isSubmitting.value || isSocialLoading.value || authenticatedUser.value) return
     clearAllErrors()
     if (targetRole === 'employer') {
       await finishSignIn({
@@ -283,6 +324,9 @@ export function useLoginForm() {
     errors,
     isSubmitting,
     isSocialLoading,
+    authenticatedUser,
+    shakeCount,
+    cancelPendingRedirect,
     syncFromIntent,
     setRole,
     toggleMode,

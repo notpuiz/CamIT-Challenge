@@ -343,6 +343,7 @@ export const MESSAGES = {
       jobUnsaved: 'Removed from saved jobs',
       statusUpdated: 'Candidate status updated to {status}',
       applicationSent: 'Application submitted to {company}',
+      signedInWelcome: 'Welcome, {name}!',
     },
     auth: {
       backToJobs: 'Back to jobs',
@@ -393,6 +394,9 @@ export const MESSAGES = {
       errPasswordMin: 'Password must be at least 6 characters.',
       errGeneric: 'Unable to sign in right now. Please try again.',
       errGoogle: 'Google sign-in failed. Please try again.',
+      welcomeTitle: 'Welcome, {name}!',
+      redirectingEmployer: 'Opening Employer Hub…',
+      redirectingJobs: 'Opening Jobs Board…',
     },
     locations: {
       'All locations': 'All locations',
@@ -790,6 +794,7 @@ export const MESSAGES = {
       jobUnsaved: 'បានដកចេញពីការងាររក្សាទុក',
       statusUpdated: 'បានផ្លាស់ប្តូរស្ថានភាពទៅ {status}',
       applicationSent: 'បានផ្ញើពាក្យស្នើសុំទៅ {company}',
+      signedInWelcome: 'សូមស្វាគមន៍ {name}!',
     },
     auth: {
       backToJobs: 'ត្រឡប់ទៅផ្ទាំងការងារ',
@@ -840,6 +845,9 @@ export const MESSAGES = {
       errPasswordMin: 'ពាក្យសម្ងាត់ត្រូវមានយ៉ាងតិច 6 តួអក្សរ។',
       errGeneric: 'មិនអាចចូលគណនីបានទេឥឡូវនេះ។ សូមព្យាយាមម្តងទៀត។',
       errGoogle: 'ការចូលតាម Google បានបរាជ័យ។ សូមព្យាយាមម្តងទៀត។',
+      welcomeTitle: 'សូមស្វាគមន៍ {name}!',
+      redirectingEmployer: 'កំពុងបើកមជ្ឈមណ្ឌលក្រុមហ៊ុន…',
+      redirectingJobs: 'កំពុងបើកផ្ទាំងការងារ…',
     },
     locations: {
       'All locations': 'គ្រប់ទីតាំង',

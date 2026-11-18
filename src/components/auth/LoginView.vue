@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import BaseCheckbox from '@/components/ui/BaseCheckbox.vue'
@@ -28,6 +28,9 @@ const {
   errors,
   isSubmitting,
   isSocialLoading,
+  authenticatedUser,
+  shakeCount,
+  cancelPendingRedirect,
   syncFromIntent,
   setRole,
   toggleMode,
@@ -42,9 +45,33 @@ const resetEmail = ref('')
 const resetErrorKey = ref('')
 const isResetSubmitting = ref(false)
 const resetSent = ref(false)
+const isShaking = ref(false)
+let shakeTimer = null
+
+watch(shakeCount, () => {
+  if (shakeTimer) {
+    clearTimeout(shakeTimer)
+    shakeTimer = null
+  }
+  isShaking.value = false
+  requestAnimationFrame(() => {
+    isShaking.value = true
+    shakeTimer = setTimeout(() => {
+      isShaking.value = false
+      shakeTimer = null
+    }, 280)
+  })
+})
 
 onMounted(() => {
   syncFromIntent()
+})
+
+onBeforeUnmount(() => {
+  if (shakeTimer) {
+    clearTimeout(shakeTimer)
+  }
+  cancelPendingRedirect()
 })
 
 function openForgotView() {
@@ -61,6 +88,7 @@ function backToLogin() {
 }
 
 function handleBackToJobs() {
+  cancelPendingRedirect()
   authStore.clearReopenIntent()
   router.push({ name: 'jobs' })
 }
@@ -127,11 +155,77 @@ async function handleResetSubmit() {
     </div>
 
     <div
-      class="auth-card w-full max-w-[420px] rounded-2xl bg-white p-7 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_12px_32px_-8px_rgba(0,0,0,0.07)] ring-1 ring-zinc-950/[0.07] sm:p-8 dark:bg-zinc-900/90 dark:shadow-[0_1px_2px_rgba(0,0,0,0.5),0_16px_40px_-8px_rgba(0,0,0,0.65),inset_0_1px_0_rgba(255,255,255,0.06)] dark:ring-white/[0.09]"
+      :class="[
+        'auth-card w-full max-w-[420px] rounded-2xl bg-white p-7 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_12px_32px_-8px_rgba(0,0,0,0.07)] ring-1 ring-zinc-950/[0.07] sm:p-8 dark:bg-zinc-900/90 dark:shadow-[0_1px_2px_rgba(0,0,0,0.5),0_16px_40px_-8px_rgba(0,0,0,0.65),inset_0_1px_0_rgba(255,255,255,0.06)] dark:ring-white/[0.09]',
+        isShaking ? 'auth-card--shake' : '',
+      ]"
     >
       <Transition name="view-swap" mode="out-in">
+        <!-- Authenticated Welcome Choreography -->
+        <section
+          v-if="authenticatedUser"
+          key="success"
+          aria-live="polite"
+          class="flex flex-col items-center py-6 text-center"
+        >
+          <div
+            class="success-badge flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-emerald-500/12 text-emerald-600 ring-1 ring-emerald-500/25 dark:bg-emerald-500/15 dark:text-emerald-400 dark:ring-emerald-400/25"
+            aria-hidden="true"
+          >
+            <svg
+              class="h-7 w-7 shrink-0"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path class="success-check-path" pathLength="1" d="M20 6 9 17l-5-5" />
+            </svg>
+          </div>
+
+          <div class="success-lead-copy mt-4">
+            <h1 class="text-xl font-semibold tracking-[-0.02em] text-zinc-900 dark:text-zinc-50">
+              {{ t('auth.welcomeTitle', { name: authenticatedUser.name }) }}
+            </h1>
+          </div>
+
+          <div class="success-support-meta mt-2.5 flex flex-col items-center gap-2">
+            <span
+              class="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700 ring-1 ring-zinc-950/[0.06] dark:bg-zinc-800 dark:text-zinc-200 dark:ring-white/10"
+            >
+              <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" aria-hidden="true" />
+              <span>
+                {{
+                  authenticatedUser.role === 'employer'
+                    ? authenticatedUser.companyName || t('auth.company')
+                    : t('auth.jobSeeker')
+                }}
+              </span>
+            </span>
+
+            <p class="max-w-[65ch] text-xs text-zinc-500 dark:text-zinc-400">
+              {{
+                authenticatedUser.role === 'employer'
+                  ? t('auth.redirectingEmployer')
+                  : t('auth.redirectingJobs')
+              }}
+            </p>
+          </div>
+
+          <div
+            class="mt-6 h-1 w-40 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800"
+            aria-hidden="true"
+          >
+            <div
+              class="success-progress-fill h-full w-full rounded-full bg-zinc-900 dark:bg-zinc-100"
+            />
+          </div>
+        </section>
+
         <!-- Sign-in / Sign-up View -->
-        <section v-if="activeView === 'login'" key="login" aria-labelledby="login-heading">
+        <section v-else-if="activeView === 'login'" key="login" aria-labelledby="login-heading">
           <div class="flex items-center justify-between gap-3">
             <div
               class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-zinc-900 text-white shadow-[0_1px_2px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.14)] dark:bg-zinc-100 dark:text-zinc-900 dark:shadow-[0_1px_2px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.7)]"
@@ -198,23 +292,27 @@ async function handleResetSubmit() {
             </div>
           </div>
 
-          <h1
-            id="login-heading"
-            class="mt-5 text-xl font-semibold tracking-[-0.02em] text-zinc-900 dark:text-zinc-50"
-          >
-            {{
-              mode === 'signup'
-                ? role === 'employer'
-                  ? t('auth.createCompanyTitle')
-                  : t('auth.createSeekerTitle')
-                : role === 'employer'
-                  ? t('auth.signInEmployerTitle')
-                  : t('auth.signInSeekerTitle')
-            }}
-          </h1>
-          <p class="mt-1 max-w-[65ch] text-sm text-zinc-500 dark:text-zinc-400">
-            {{ role === 'employer' ? t('auth.employerSub') : t('auth.seekerSub') }}
-          </p>
+          <Transition name="heading-swap" mode="out-in">
+            <div :key="`${mode}-${role}`" class="mt-5">
+              <h1
+                id="login-heading"
+                class="text-xl font-semibold tracking-[-0.02em] text-zinc-900 dark:text-zinc-50"
+              >
+                {{
+                  mode === 'signup'
+                    ? role === 'employer'
+                      ? t('auth.createCompanyTitle')
+                      : t('auth.createSeekerTitle')
+                    : role === 'employer'
+                      ? t('auth.signInEmployerTitle')
+                      : t('auth.signInSeekerTitle')
+                }}
+              </h1>
+              <p class="mt-1 max-w-[65ch] text-sm text-zinc-500 dark:text-zinc-400">
+                {{ role === 'employer' ? t('auth.employerSub') : t('auth.seekerSub') }}
+              </p>
+            </div>
+          </Transition>
 
           <div class="mt-5">
             <BaseButton
@@ -278,31 +376,35 @@ async function handleResetSubmit() {
               <span class="max-w-[65ch]">{{ errors.form }}</span>
             </div>
 
-            <BaseInput
-              v-if="mode === 'signup'"
-              id="auth-fullname"
-              v-model="fullName"
-              :label="t('auth.fullName')"
-              :placeholder="t('auth.fullNamePlaceholder')"
-              autocomplete="name"
-              enterkeyhint="next"
-              :disabled="isSubmitting || isSocialLoading"
-              :error="errors.fullName"
-              @update:model-value="clearFieldError('fullName')"
-            />
+            <Transition name="field-reveal">
+              <BaseInput
+                v-if="mode === 'signup'"
+                id="auth-fullname"
+                v-model="fullName"
+                :label="t('auth.fullName')"
+                :placeholder="t('auth.fullNamePlaceholder')"
+                autocomplete="name"
+                enterkeyhint="next"
+                :disabled="isSubmitting || isSocialLoading"
+                :error="errors.fullName"
+                @update:model-value="clearFieldError('fullName')"
+              />
+            </Transition>
 
-            <BaseInput
-              v-if="mode === 'signup' && role === 'employer'"
-              id="auth-company"
-              v-model="companyName"
-              :label="t('auth.companyName')"
-              :placeholder="t('auth.companyPlaceholder')"
-              autocomplete="organization"
-              enterkeyhint="next"
-              :disabled="isSubmitting || isSocialLoading"
-              :error="errors.companyName"
-              @update:model-value="clearFieldError('companyName')"
-            />
+            <Transition name="field-reveal">
+              <BaseInput
+                v-if="mode === 'signup' && role === 'employer'"
+                id="auth-company"
+                v-model="companyName"
+                :label="t('auth.companyName')"
+                :placeholder="t('auth.companyPlaceholder')"
+                autocomplete="organization"
+                enterkeyhint="next"
+                :disabled="isSubmitting || isSocialLoading"
+                :error="errors.companyName"
+                @update:model-value="clearFieldError('companyName')"
+              />
+            </Transition>
 
             <BaseInput
               id="login-email"
@@ -553,5 +655,177 @@ async function handleResetSubmit() {
   opacity: 0;
   transform: scale(0.98);
   filter: blur(2px);
+}
+
+.auth-card--shake {
+  animation: auth-shake 260ms var(--ease-out);
+}
+
+@keyframes auth-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  22% {
+    transform: translateX(-5px);
+  }
+  48% {
+    transform: translateX(4px);
+  }
+  74% {
+    transform: translateX(-2.5px);
+  }
+}
+
+.heading-swap-enter-active {
+  transition:
+    opacity 140ms var(--ease-out),
+    transform 140ms var(--ease-out);
+}
+
+.heading-swap-leave-active {
+  transition:
+    opacity 95ms var(--ease-out),
+    transform 95ms var(--ease-out);
+}
+
+.heading-swap-enter-from {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+.heading-swap-leave-to {
+  opacity: 0;
+  transform: translateY(-3px);
+}
+
+.field-reveal-enter-active {
+  transition:
+    opacity 170ms var(--ease-out),
+    transform 170ms var(--ease-out);
+}
+
+.field-reveal-leave-active {
+  transition:
+    opacity 120ms var(--ease-out),
+    transform 120ms var(--ease-out);
+}
+
+.field-reveal-enter-from,
+.field-reveal-leave-to {
+  opacity: 0;
+  transform: translateY(-4px) scale(0.985);
+}
+
+.success-badge {
+  animation: success-badge-in 240ms var(--ease-out) both;
+}
+
+.success-check-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: success-check-draw 230ms var(--ease-out) 70ms both;
+}
+
+.success-lead-copy {
+  animation: success-rise-lead 220ms var(--ease-out) 55ms both;
+}
+
+.success-support-meta {
+  animation: success-rise-support 200ms var(--ease-out) 100ms both;
+}
+
+.success-progress-fill {
+  transform-origin: left center;
+  animation: success-progress 430ms var(--ease-out) 60ms both;
+}
+
+@keyframes success-badge-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes success-check-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes success-rise-lead {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes success-rise-support {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes success-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-card--shake {
+    animation: none;
+  }
+
+  .heading-swap-enter-from,
+  .heading-swap-leave-to,
+  .field-reveal-enter-from,
+  .field-reveal-leave-to {
+    transform: none;
+  }
+
+  .success-badge,
+  .success-lead-copy,
+  .success-support-meta {
+    animation: success-fade-only 180ms ease both;
+  }
+
+  .success-check-path {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+
+  .success-progress-fill {
+    animation: none;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes success-fade-only {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 </style>
