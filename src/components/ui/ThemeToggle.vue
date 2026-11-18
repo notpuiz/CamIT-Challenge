@@ -81,8 +81,8 @@ const { isDark, toggleTheme } = useTheme()
 
 .theme-icon {
   transition:
-    opacity 180ms var(--ease-out),
-    transform 180ms var(--ease-out);
+    opacity 240ms var(--ease-out),
+    transform 240ms var(--ease-out);
 }
 
 .theme-icon--visible {
@@ -92,12 +92,12 @@ const { isDark, toggleTheme } = useTheme()
 
 .theme-icon--sun-hidden {
   opacity: 0;
-  transform: scale(0.85) rotate(35deg);
+  transform: scale(0.75) rotate(65deg);
 }
 
 .theme-icon--moon-hidden {
   opacity: 0;
-  transform: scale(0.85) rotate(-35deg);
+  transform: scale(0.75) rotate(-65deg);
 }
 
 @media (prefers-reduced-motion: reduce) {

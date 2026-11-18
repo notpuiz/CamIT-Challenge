@@ -173,8 +173,16 @@ watch(selectedJobId, (nextJobId) => {
       </div>
 
       <!-- Active Filter Chips & Result Count -->
-      <div v-if="activeChips.length > 0" class="mb-4 flex flex-wrap items-center gap-1.5">
-        <span class="mr-1 text-xs font-medium text-zinc-500 tabular-nums dark:text-zinc-400">
+      <TransitionGroup
+        v-if="activeChips.length > 0"
+        name="chip-pop"
+        tag="div"
+        class="mb-4 flex flex-wrap items-center gap-1.5"
+      >
+        <span
+          key="__count"
+          class="mr-1 text-xs font-medium text-zinc-500 tabular-nums dark:text-zinc-400"
+        >
           {{ t('board.showingPrefix') }} {{ resultLabel }}
         </span>
         <button
@@ -185,31 +193,40 @@ watch(selectedJobId, (nextJobId) => {
           class="chip-remove inline-flex h-7 cursor-pointer items-center gap-1.5 rounded-full bg-white px-2.5 text-xs font-medium text-zinc-700 ring-1 ring-zinc-950/10 select-none dark:bg-zinc-900 dark:text-zinc-200 dark:ring-white/12"
           @click="clearFilterChip(chip.key)"
         >
-          <span>{{ chip.label }}</span>
+          <span data-currency-anim>{{ chip.label }}</span>
           <span class="text-zinc-400 dark:text-zinc-500" aria-hidden="true">×</span>
         </button>
-      </div>
+      </TransitionGroup>
 
-      <div
-        v-if="filteredJobs.length === 0"
-        class="rounded-2xl bg-white p-10 text-center ring-1 ring-zinc-950/[0.07] dark:bg-zinc-900/90 dark:ring-white/[0.08]"
-      >
-        <h2 class="text-base font-semibold text-zinc-900 dark:text-zinc-100">
-          {{ t('board.noMatchingTitle') }}
-        </h2>
-        <p class="mx-auto mt-1.5 max-w-[65ch] text-sm text-zinc-500 dark:text-zinc-400">
-          {{ t('board.noMatchingSub') }}
-        </p>
-        <div class="mt-5">
-          <BaseButton variant="secondary" @click="resetFilters">
-            {{ t('board.resetAllFilters') }}
-          </BaseButton>
+      <Transition name="surface-swap" mode="out-in">
+        <div
+          v-if="filteredJobs.length === 0"
+          key="empty"
+          class="rounded-2xl bg-white p-10 text-center ring-1 ring-zinc-950/[0.07] dark:bg-zinc-900/90 dark:ring-white/[0.08]"
+        >
+          <h2 class="text-base font-semibold text-zinc-900 dark:text-zinc-100">
+            {{ t('board.noMatchingTitle') }}
+          </h2>
+          <p class="mx-auto mt-1.5 max-w-[65ch] text-sm text-zinc-500 dark:text-zinc-400">
+            {{ t('board.noMatchingSub') }}
+          </p>
+          <div class="mt-5">
+            <BaseButton variant="secondary" @click="resetFilters">
+              {{ t('board.resetAllFilters') }}
+            </BaseButton>
+          </div>
         </div>
-      </div>
 
-      <div v-else class="grid grid-cols-1 gap-4 md:grid-cols-2 2xl:grid-cols-3">
-        <JobCard v-for="job in filteredJobs" :key="job.id" :job="job" />
-      </div>
+        <TransitionGroup
+          v-else
+          key="grid"
+          name="list-glide"
+          tag="div"
+          class="grid grid-cols-1 gap-4 md:grid-cols-2 2xl:grid-cols-3"
+        >
+          <JobCard v-for="job in filteredJobs" :key="job.id" :job="job" />
+        </TransitionGroup>
+      </Transition>
     </div>
   </div>
 </template>

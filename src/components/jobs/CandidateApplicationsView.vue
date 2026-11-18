@@ -129,156 +129,171 @@ function statusClasses(status) {
       </button>
     </div>
 
-    <div
-      v-if="myApplications.length === 0"
-      class="mt-6 rounded-2xl bg-white p-10 text-center ring-1 ring-zinc-950/[0.07] dark:bg-zinc-900/90 dark:ring-white/[0.08]"
-    >
-      <h2 class="text-base font-semibold text-zinc-900 dark:text-zinc-100">
-        {{ t('applications.emptyTitle') }}
-      </h2>
-      <p class="mx-auto mt-1.5 max-w-[65ch] text-sm text-zinc-500 dark:text-zinc-400">
-        {{ t('applications.emptySub') }}
-      </p>
-      <div class="mt-5">
-        <BaseButton variant="primary" @click="router.push({ name: 'jobs' })">
-          {{ t('applications.browseJobs') }}
-        </BaseButton>
-      </div>
-    </div>
-
-    <div
-      v-else-if="filteredApplications.length === 0"
-      class="mt-6 rounded-2xl bg-white p-8 text-center ring-1 ring-zinc-950/[0.07] dark:bg-zinc-900/90 dark:ring-white/[0.08]"
-    >
-      <p class="text-sm text-zinc-500 dark:text-zinc-400">
-        {{ t('board.noMatchingTitle') }}
-      </p>
-      <div class="mt-4">
-        <BaseButton variant="secondary" @click="activeStatus = 'All'">
-          {{ t('applications.filterAll') }}
-        </BaseButton>
-      </div>
-    </div>
-
-    <div v-else class="mt-6 grid grid-cols-1 gap-4 xl:grid-cols-2">
-      <article
-        v-for="app in filteredApplications"
-        :key="app.id"
-        class="flex flex-col justify-between rounded-2xl bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)] ring-1 ring-zinc-950/[0.07] dark:bg-zinc-900/90 dark:ring-white/[0.08]"
+    <Transition name="surface-swap" mode="out-in">
+      <div
+        v-if="myApplications.length === 0"
+        key="empty"
+        class="mt-6 rounded-2xl bg-white p-10 text-center ring-1 ring-zinc-950/[0.07] dark:bg-zinc-900/90 dark:ring-white/[0.08]"
       >
-        <div class="flex flex-wrap items-start justify-between gap-3">
-          <div>
+        <h2 class="text-base font-semibold text-zinc-900 dark:text-zinc-100">
+          {{ t('applications.emptyTitle') }}
+        </h2>
+        <p class="mx-auto mt-1.5 max-w-[65ch] text-sm text-zinc-500 dark:text-zinc-400">
+          {{ t('applications.emptySub') }}
+        </p>
+        <div class="mt-5">
+          <BaseButton variant="primary" @click="router.push({ name: 'jobs' })">
+            {{ t('applications.browseJobs') }}
+          </BaseButton>
+        </div>
+      </div>
+
+      <div
+        v-else-if="filteredApplications.length === 0"
+        key="filtered-empty"
+        class="mt-6 rounded-2xl bg-white p-8 text-center ring-1 ring-zinc-950/[0.07] dark:bg-zinc-900/90 dark:ring-white/[0.08]"
+      >
+        <p class="text-sm text-zinc-500 dark:text-zinc-400">
+          {{ t('board.noMatchingTitle') }}
+        </p>
+        <div class="mt-4">
+          <BaseButton variant="secondary" @click="activeStatus = 'All'">
+            {{ t('applications.filterAll') }}
+          </BaseButton>
+        </div>
+      </div>
+
+      <TransitionGroup
+        v-else
+        key="list"
+        name="list-glide"
+        tag="div"
+        class="mt-6 grid grid-cols-1 gap-4 xl:grid-cols-2"
+      >
+        <article
+          v-for="app in filteredApplications"
+          :key="app.id"
+          class="flex flex-col justify-between rounded-2xl bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)] ring-1 ring-zinc-950/[0.07] dark:bg-zinc-900/90 dark:ring-white/[0.08]"
+        >
+          <div class="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+                  {{ app.localizedJob?.company || t('applications.defaultEmployer') }}
+                </span>
+                <span class="text-xs text-zinc-300 dark:text-zinc-700" aria-hidden="true">·</span>
+                <span class="text-xs text-zinc-400 tabular-nums dark:text-zinc-500">
+                  {{ t('applications.appliedPrefix') }} {{ tPosted(app.appliedAt) }}
+                </span>
+              </div>
+              <h2 class="mt-0.5 text-base font-semibold text-zinc-900 dark:text-zinc-50">
+                {{ app.localizedJob?.displayTitle || t('applications.defaultRole') }}
+              </h2>
+              <p
+                v-if="app.localizedJob"
+                class="mt-1 text-xs text-zinc-500 tabular-nums dark:text-zinc-400"
+              >
+                {{ tLocation(app.localizedJob.location) }} ·
+                {{ tWorkMode(app.localizedJob.workMode) }} ·
+                <span data-currency-anim class="inline-block">
+                  {{
+                    formatSalaryRange(
+                      app.localizedJob.salaryMin,
+                      app.localizedJob.salaryMax,
+                      app.localizedJob.currency,
+                      displayCurrency,
+                    )
+                  }}
+                </span>
+                {{ t('board.perMonth') }}
+              </p>
+            </div>
+
+            <span
+              :class="[
+                'inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ring-1',
+                statusClasses(app.status),
+              ]"
+            >
+              {{ tStatus(app.status) }}
+            </span>
+          </div>
+
+          <p
+            v-if="app.coverNote"
+            class="mt-3 max-w-[65ch] text-sm text-zinc-600 dark:text-zinc-400"
+          >
+            “{{ app.coverNote }}”
+          </p>
+
+          <div
+            v-if="app.employerNote"
+            class="mt-3 rounded-xl bg-zinc-50 px-3.5 py-2.5 text-xs ring-1 ring-zinc-950/[0.05] dark:bg-zinc-950/60 dark:ring-white/[0.06]"
+          >
+            <span class="font-semibold text-zinc-800 dark:text-zinc-200">
+              {{ t('applications.employerNoteLabel') }}:
+            </span>
+            <span class="ml-1 text-zinc-600 dark:text-zinc-400">{{ app.employerNote }}</span>
+          </div>
+
+          <div
+            class="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-100 pt-3 dark:border-zinc-800/80"
+          >
             <div class="flex flex-wrap items-center gap-2">
-              <span class="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                {{ app.localizedJob?.company || t('applications.defaultEmployer') }}
+              <span
+                class="inline-flex items-center gap-1.5 rounded-md bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
+              >
+                <svg
+                  class="h-3.5 w-3.5 shrink-0 text-zinc-500 dark:text-zinc-400"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                  <polyline points="14 2 14 8 20 8" />
+                </svg>
+                {{ app.cvFileName }}
               </span>
-              <span class="text-xs text-zinc-300 dark:text-zinc-700" aria-hidden="true">·</span>
-              <span class="text-xs text-zinc-400 tabular-nums dark:text-zinc-500">
-                {{ t('applications.appliedPrefix') }} {{ tPosted(app.appliedAt) }}
+
+              <a
+                v-if="app.portfolioUrl"
+                :href="app.portfolioUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="tactile-text-btn inline-flex items-center gap-1 rounded-md bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
+              >
+                <span>{{ t('employer.portfolioLinkBtn') }}</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+
+              <span
+                v-if="app.portfolioProjects?.length > 0"
+                class="inline-flex items-center rounded-md bg-zinc-100 px-2 py-1 text-xs font-medium text-zinc-600 tabular-nums dark:bg-zinc-800 dark:text-zinc-300"
+              >
+                +{{ app.portfolioProjects.length }}
               </span>
             </div>
-            <h2 class="mt-0.5 text-base font-semibold text-zinc-900 dark:text-zinc-50">
-              {{ app.localizedJob?.displayTitle || t('applications.defaultRole') }}
-            </h2>
-            <p
-              v-if="app.localizedJob"
-              class="mt-1 text-xs text-zinc-500 tabular-nums dark:text-zinc-400"
-            >
-              {{ tLocation(app.localizedJob.location) }} ·
-              {{ tWorkMode(app.localizedJob.workMode) }} ·
-              {{
-                formatSalaryRange(
-                  app.localizedJob.salaryMin,
-                  app.localizedJob.salaryMax,
-                  app.localizedJob.currency,
-                  displayCurrency,
-                )
-              }}
-              {{ t('board.perMonth') }}
-            </p>
-          </div>
 
-          <span
-            :class="[
-              'inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ring-1',
-              statusClasses(app.status),
-            ]"
-          >
-            {{ tStatus(app.status) }}
-          </span>
-        </div>
-
-        <p v-if="app.coverNote" class="mt-3 max-w-[65ch] text-sm text-zinc-600 dark:text-zinc-400">
-          “{{ app.coverNote }}”
-        </p>
-
-        <div
-          v-if="app.employerNote"
-          class="mt-3 rounded-xl bg-zinc-50 px-3.5 py-2.5 text-xs ring-1 ring-zinc-950/[0.05] dark:bg-zinc-950/60 dark:ring-white/[0.06]"
-        >
-          <span class="font-semibold text-zinc-800 dark:text-zinc-200">
-            {{ t('applications.employerNoteLabel') }}:
-          </span>
-          <span class="ml-1 text-zinc-600 dark:text-zinc-400">{{ app.employerNote }}</span>
-        </div>
-
-        <div
-          class="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-100 pt-3 dark:border-zinc-800/80"
-        >
-          <div class="flex flex-wrap items-center gap-2">
-            <span
-              class="inline-flex items-center gap-1.5 rounded-md bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
-            >
-              <svg
-                class="h-3.5 w-3.5 shrink-0 text-zinc-500 dark:text-zinc-400"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
+            <div class="flex items-center gap-2">
+              <BaseButton variant="ghost" @click="handleWithdraw(app.id)">
+                {{ t('applications.withdrawBtn') }}
+              </BaseButton>
+              <BaseButton
+                v-if="app.localizedJob"
+                variant="secondary"
+                @click="openJobDetail(app.localizedJob.id)"
               >
-                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
-                <polyline points="14 2 14 8 20 8" />
-              </svg>
-              {{ app.cvFileName }}
-            </span>
-
-            <a
-              v-if="app.portfolioUrl"
-              :href="app.portfolioUrl"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="tactile-text-btn inline-flex items-center gap-1 rounded-md bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
-            >
-              <span>{{ t('employer.portfolioLinkBtn') }}</span>
-              <span aria-hidden="true">↗</span>
-            </a>
-
-            <span
-              v-if="app.portfolioProjects?.length > 0"
-              class="inline-flex items-center rounded-md bg-zinc-100 px-2 py-1 text-xs font-medium text-zinc-600 tabular-nums dark:bg-zinc-800 dark:text-zinc-300"
-            >
-              +{{ app.portfolioProjects.length }}
-            </span>
+                {{ t('applications.viewJobDetails') }}
+              </BaseButton>
+            </div>
           </div>
-
-          <div class="flex items-center gap-2">
-            <BaseButton variant="ghost" @click="handleWithdraw(app.id)">
-              {{ t('applications.withdrawBtn') }}
-            </BaseButton>
-            <BaseButton
-              v-if="app.localizedJob"
-              variant="secondary"
-              @click="openJobDetail(app.localizedJob.id)"
-            >
-              {{ t('applications.viewJobDetails') }}
-            </BaseButton>
-          </div>
-        </div>
-      </article>
-    </div>
+        </article>
+      </TransitionGroup>
+    </Transition>
   </section>
 </template>
 

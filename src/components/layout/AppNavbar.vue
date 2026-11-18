@@ -77,7 +77,11 @@ function handleLogout() {
           </span>
         </RouterLink>
 
-        <nav class="hidden items-center gap-1.5 md:flex" aria-label="Primary navigation">
+        <nav
+          data-locale-stage
+          class="hidden items-center gap-1.5 md:flex"
+          aria-label="Primary navigation"
+        >
           <JobsNavDropdown menu-id="desktop-jobs-nav-menu" />
 
           <RouterLink
@@ -180,6 +184,7 @@ function handleLogout() {
 
     <!-- Mobile Secondary Nav Row -->
     <nav
+      data-locale-stage
       class="flex flex-wrap items-center gap-1.5 border-t border-zinc-200/70 px-4 py-2 md:hidden dark:border-zinc-800/70"
       aria-label="Mobile navigation"
     >

@@ -453,7 +453,7 @@ onUnmounted(() => {
                   <div class="text-xs font-medium text-zinc-500 dark:text-zinc-400">
                     {{ t('drawer.monthlyCompensation') }}
                   </div>
-                  <div class="mt-1 flex flex-wrap items-baseline gap-2.5">
+                  <div data-currency-anim class="mt-1 flex flex-wrap items-baseline gap-2.5">
                     <span
                       class="text-lg font-semibold text-zinc-900 tabular-nums dark:text-zinc-50"
                     >
@@ -749,7 +749,7 @@ onUnmounted(() => {
               <!-- Sent Confirmation Step -->
               <div v-else key="sent" class="py-6 text-center">
                 <div
-                  class="mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 ring-1 ring-emerald-600/15 dark:bg-emerald-500/10 dark:text-emerald-400 dark:ring-emerald-400/20"
+                  class="sent-badge mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 ring-1 ring-emerald-600/15 dark:bg-emerald-500/10 dark:text-emerald-400 dark:ring-emerald-400/20"
                   aria-hidden="true"
                 >
                   <svg
@@ -757,11 +757,11 @@ onUnmounted(() => {
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    stroke-width="2"
+                    stroke-width="2.2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                   >
-                    <path d="M20 6 9 17l-5-5" />
+                    <path class="sent-check-path" pathLength="1" d="M20 6 9 17l-5-5" />
                   </svg>
                 </div>
 
@@ -926,6 +926,36 @@ onUnmounted(() => {
   transform: scale(0.985);
 }
 
+.sent-badge {
+  animation: sent-badge-in 240ms var(--ease-out) both;
+}
+
+.sent-check-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: sent-check-draw 230ms var(--ease-out) 65ms both;
+}
+
+@keyframes sent-badge-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes sent-check-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .drawer-enter-from .drawer-panel,
   .drawer-leave-to .drawer-panel {
@@ -935,6 +965,15 @@ onUnmounted(() => {
   .drawer-enter-active .drawer-panel,
   .drawer-leave-active .drawer-panel {
     transition: opacity 160ms ease;
+  }
+
+  .sent-badge {
+    animation: none;
+  }
+
+  .sent-check-path {
+    stroke-dashoffset: 0;
+    animation: none;
   }
 }
 </style>

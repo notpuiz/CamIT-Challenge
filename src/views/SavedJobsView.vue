@@ -38,25 +38,34 @@ const savedCountLabel = computed(() =>
       </span>
     </div>
 
-    <div
-      v-if="savedJobs.length === 0"
-      class="mt-6 rounded-2xl bg-white p-10 text-center ring-1 ring-zinc-950/[0.07] dark:bg-zinc-900/90 dark:ring-white/[0.08]"
-    >
-      <h2 class="text-base font-semibold text-zinc-900 dark:text-zinc-100">
-        {{ t('saved.emptyTitle') }}
-      </h2>
-      <p class="mx-auto mt-1.5 max-w-[65ch] text-sm text-zinc-500 dark:text-zinc-400">
-        {{ t('saved.emptySub') }}
-      </p>
-      <div class="mt-5">
-        <BaseButton variant="primary" @click="router.push({ name: 'jobs' })">
-          {{ t('saved.browseJobs') }}
-        </BaseButton>
+    <Transition name="surface-swap" mode="out-in">
+      <div
+        v-if="savedJobs.length === 0"
+        key="empty"
+        class="mt-6 rounded-2xl bg-white p-10 text-center ring-1 ring-zinc-950/[0.07] dark:bg-zinc-900/90 dark:ring-white/[0.08]"
+      >
+        <h2 class="text-base font-semibold text-zinc-900 dark:text-zinc-100">
+          {{ t('saved.emptyTitle') }}
+        </h2>
+        <p class="mx-auto mt-1.5 max-w-[65ch] text-sm text-zinc-500 dark:text-zinc-400">
+          {{ t('saved.emptySub') }}
+        </p>
+        <div class="mt-5">
+          <BaseButton variant="primary" @click="router.push({ name: 'jobs' })">
+            {{ t('saved.browseJobs') }}
+          </BaseButton>
+        </div>
       </div>
-    </div>
 
-    <div v-else class="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-      <JobCard v-for="job in savedJobs" :key="job.id" :job="job" />
-    </div>
+      <TransitionGroup
+        v-else
+        key="grid"
+        name="list-glide"
+        tag="div"
+        class="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3"
+      >
+        <JobCard v-for="job in savedJobs" :key="job.id" :job="job" />
+      </TransitionGroup>
+    </Transition>
   </div>
 </template>

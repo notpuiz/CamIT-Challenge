@@ -53,13 +53,27 @@ const { setDisplayCurrency } = preferencesStore
 
 <style scoped>
 .currency-pill {
-  transition: transform 180ms var(--ease-out);
+  transition: transform 210ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .currency-btn {
   transition:
-    transform 140ms var(--ease-out),
+    transform 160ms var(--ease-out),
     color 150ms ease;
+}
+
+.currency-btn[aria-pressed='false'] {
+  transform: scale(0.95);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .currency-pill {
+    transition: none;
+  }
+
+  .currency-btn[aria-pressed='false'] {
+    transform: none;
+  }
 }
 
 .currency-btn:active,

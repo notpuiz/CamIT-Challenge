@@ -129,7 +129,7 @@ const secondarySalary = computed(() =>
           @click.stop="handleToggleSave"
         >
           <svg
-            class="h-4 w-4 shrink-0"
+            :class="['h-4 w-4 shrink-0', saved ? 'bookmark-icon--saved' : '']"
             viewBox="0 0 24 24"
             :fill="saved ? 'currentColor' : 'none'"
             stroke="currentColor"
@@ -195,7 +195,7 @@ const secondarySalary = computed(() =>
     <div
       class="mt-4 flex items-end justify-between gap-3 border-t border-zinc-100 pt-3.5 dark:border-zinc-800/80"
     >
-      <div>
+      <div data-currency-anim>
         <div class="text-sm font-semibold text-zinc-900 tabular-nums dark:text-zinc-50">
           {{ primarySalary }}
           <span class="text-xs font-normal text-zinc-500 dark:text-zinc-400">
@@ -256,13 +256,30 @@ const secondarySalary = computed(() =>
   transition-duration: 90ms;
 }
 
+.bookmark-icon--saved {
+  animation: bookmark-pop 220ms var(--ease-out);
+}
+
+@keyframes bookmark-pop {
+  0% {
+    transform: scale(0.82);
+  }
+  55% {
+    transform: scale(1.16);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 .view-role-arrow {
   transition: transform 160ms var(--ease-out);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .job-card:hover {
+  .job-card:hover:not([data-pressed='true']) {
     border-color: var(--card-border-hover);
+    transform: translateY(-2px);
   }
 
   .job-card:hover .view-role-arrow {

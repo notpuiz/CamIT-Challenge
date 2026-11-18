@@ -206,11 +206,16 @@ function companyBenefitsList(company) {
         </div>
       </div>
 
-      <div v-else class="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <TransitionGroup
+        v-else
+        name="list-glide"
+        tag="div"
+        class="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3"
+      >
         <article
           v-for="company in filteredCompanies"
           :key="company.slug"
-          class="flex flex-col justify-between rounded-2xl bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)] ring-1 ring-zinc-950/[0.07] dark:bg-zinc-900/90 dark:ring-white/[0.08]"
+          class="company-card flex flex-col justify-between rounded-2xl bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)] ring-1 ring-zinc-950/[0.07] dark:bg-zinc-900/90 dark:ring-white/[0.08]"
         >
           <div>
             <div class="flex items-start justify-between gap-3">
@@ -240,7 +245,10 @@ function companyBenefitsList(company) {
 
             <div class="mt-4 space-y-2 text-xs text-zinc-600 dark:text-zinc-400">
               <p>{{ companyLocationText(company) }}</p>
-              <p class="font-medium text-zinc-800 tabular-nums dark:text-zinc-200">
+              <p
+                data-currency-anim
+                class="font-medium text-zinc-800 tabular-nums dark:text-zinc-200"
+              >
                 {{ t('companies.salaryRange') }}:
                 {{
                   formatSalaryRange(
@@ -275,12 +283,16 @@ function companyBenefitsList(company) {
             </BaseButton>
           </div>
         </article>
-      </div>
+      </TransitionGroup>
     </template>
   </section>
 </template>
 
 <style scoped>
+.company-card {
+  transition: transform 170ms var(--ease-out);
+}
+
 .company-search {
   border: 1px solid var(--input-border);
   transition:
@@ -294,6 +306,10 @@ function companyBenefitsList(company) {
 }
 
 @media (hover: hover) and (pointer: fine) {
+  .company-card:hover {
+    transform: translateY(-2px);
+  }
+
   .company-search:hover:not(:focus) {
     border-color: var(--input-border-hover);
   }

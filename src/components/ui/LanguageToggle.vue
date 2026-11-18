@@ -13,7 +13,10 @@ const { locale, toggleLocale } = useI18n()
     @click="toggleLocale"
   >
     <svg
-      class="hidden h-3.5 w-3.5 shrink-0 text-zinc-500 sm:block dark:text-zinc-400"
+      :class="[
+        'lang-globe hidden h-3.5 w-3.5 shrink-0 text-zinc-500 sm:block dark:text-zinc-400',
+        locale === 'km' ? 'lang-globe--km' : '',
+      ]"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -27,7 +30,9 @@ const { locale, toggleLocale } = useI18n()
       <path d="M2 12h20" />
     </svg>
     <Transition name="lang-swap" mode="out-in">
-      <span :key="locale" class="leading-none">{{ locale === 'km' ? 'ខ្មែរ' : 'EN' }}</span>
+      <span :key="locale" class="inline-block leading-none">
+        {{ locale === 'km' ? 'ខ្មែរ' : 'EN' }}
+      </span>
     </Transition>
   </button>
 </template>
@@ -56,28 +61,42 @@ const { locale, toggleLocale } = useI18n()
   }
 }
 
+.lang-globe {
+  transition: transform 260ms var(--ease-out);
+}
+
+.lang-globe--km {
+  transform: rotate(180deg);
+}
+
 .lang-swap-enter-active {
   transition:
-    opacity 150ms var(--ease-out),
-    transform 150ms var(--ease-out),
-    filter 150ms var(--ease-out);
+    opacity 155ms var(--ease-out),
+    transform 155ms var(--ease-out);
 }
 
 .lang-swap-leave-active {
   transition:
     opacity 110ms var(--ease-out),
-    transform 110ms var(--ease-out),
-    filter 110ms var(--ease-out);
+    transform 110ms var(--ease-out);
 }
 
-.lang-swap-enter-from,
+.lang-swap-enter-from {
+  opacity: 0;
+  transform: translateY(5px) scale(0.94);
+}
+
 .lang-swap-leave-to {
   opacity: 0;
-  transform: scale(0.92);
-  filter: blur(2px);
+  transform: translateY(-5px) scale(0.94);
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .lang-globe {
+    transition: none;
+  }
+
+  .lang-globe--km,
   .lang-swap-enter-from,
   .lang-swap-leave-to {
     transform: none;

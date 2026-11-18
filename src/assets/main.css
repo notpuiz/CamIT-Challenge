@@ -101,10 +101,20 @@ html.theme-switching *:not([data-theme-toggle]):not([data-theme-toggle] *) {
   transition-duration: 0ms !important;
 }
 
-html.theme-vt-capturing *,
-html.theme-vt-capturing *::before,
-html.theme-vt-capturing *::after {
+html.theme-vt-capturing *:not([data-theme-toggle]):not([data-theme-toggle] *),
+html.theme-vt-capturing *:not([data-theme-toggle]):not([data-theme-toggle] *)::before,
+html.theme-vt-capturing *:not([data-theme-toggle]):not([data-theme-toggle] *)::after {
   transition-duration: 0ms !important;
+}
+
+[data-theme-toggle] {
+  view-transition-name: theme-toggle-control;
+}
+
+::view-transition-old(theme-toggle-control),
+::view-transition-new(theme-toggle-control) {
+  animation: none;
+  mix-blend-mode: normal;
 }
 
 html.theme-vt-capturing [data-theme-toggle] {
@@ -187,7 +197,84 @@ html.dark .auth-ambient-bg {
   }
 }
 
+.list-glide-move {
+  transition: transform 240ms var(--ease-out);
+}
+
+.list-glide-enter-active {
+  transition:
+    opacity 200ms var(--ease-out),
+    transform 200ms var(--ease-out);
+}
+
+.list-glide-leave-active {
+  transition:
+    opacity 140ms var(--ease-out),
+    transform 140ms var(--ease-out);
+}
+
+.list-glide-enter-from,
+.list-glide-leave-to {
+  opacity: 0;
+  transform: translateY(6px) scale(0.97);
+}
+
+.chip-pop-move {
+  transition: transform 180ms var(--ease-out);
+}
+
+.chip-pop-enter-active {
+  transition:
+    opacity 160ms var(--ease-out),
+    transform 160ms var(--ease-out);
+}
+
+.chip-pop-leave-active {
+  transition:
+    opacity 115ms var(--ease-out),
+    transform 115ms var(--ease-out);
+}
+
+.chip-pop-enter-from,
+.chip-pop-leave-to {
+  opacity: 0;
+  transform: scale(0.92);
+}
+
+.surface-swap-enter-active {
+  transition:
+    opacity 180ms var(--ease-out),
+    transform 180ms var(--ease-out);
+}
+
+.surface-swap-leave-active {
+  transition:
+    opacity 120ms var(--ease-out),
+    transform 120ms var(--ease-out);
+}
+
+.surface-swap-enter-from {
+  opacity: 0;
+  transform: translateY(5px) scale(0.99);
+}
+
+.surface-swap-leave-to {
+  opacity: 0;
+  transform: translateY(-3px) scale(0.99);
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .list-glide-move,
+  .chip-pop-move {
+    transition: none !important;
+  }
+
+  .list-glide-enter-from,
+  .list-glide-leave-to,
+  .chip-pop-enter-from,
+  .chip-pop-leave-to,
+  .surface-swap-enter-from,
+  .surface-swap-leave-to,
   button:active,
   a:active,
   [data-pressed='true'],

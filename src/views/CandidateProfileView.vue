@@ -272,15 +272,20 @@ function applyAlertFilters(alert) {
       <div
         role="group"
         aria-label="Profile view mode"
-        class="inline-flex h-9 items-center gap-1 rounded-lg bg-zinc-100 p-0.5 ring-1 ring-zinc-950/[0.06] select-none dark:bg-zinc-900 dark:ring-white/10"
+        class="relative grid h-9 grid-cols-2 items-center rounded-lg bg-zinc-100 p-0.5 ring-1 ring-zinc-950/[0.06] select-none dark:bg-zinc-900 dark:ring-white/10"
       >
+        <span
+          aria-hidden="true"
+          class="mode-pill pointer-events-none absolute inset-y-0.5 left-0.5 w-[calc(50%-2px)] rounded-[6px] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.08)] ring-1 ring-zinc-950/[0.05] dark:bg-zinc-800 dark:ring-white/10"
+          :style="{ transform: viewMode === 'preview' ? 'translateX(100%)' : 'translateX(0%)' }"
+        />
         <button
           type="button"
           :aria-pressed="viewMode === 'edit'"
           :class="[
-            'mode-tab inline-flex h-8 cursor-pointer items-center rounded-[6px] px-3 text-xs font-medium select-none',
+            'mode-tab relative z-10 inline-flex h-8 cursor-pointer items-center justify-center rounded-[6px] px-3 text-xs font-medium select-none',
             viewMode === 'edit'
-              ? 'bg-white text-zinc-900 shadow-[0_1px_2px_rgba(0,0,0,0.08)] dark:bg-zinc-800 dark:text-zinc-50'
+              ? 'text-zinc-900 dark:text-zinc-50'
               : 'text-zinc-600 dark:text-zinc-400',
           ]"
           @click="viewMode = 'edit'"
@@ -291,9 +296,9 @@ function applyAlertFilters(alert) {
           type="button"
           :aria-pressed="viewMode === 'preview'"
           :class="[
-            'mode-tab inline-flex h-8 cursor-pointer items-center rounded-[6px] px-3 text-xs font-medium select-none',
+            'mode-tab relative z-10 inline-flex h-8 cursor-pointer items-center justify-center rounded-[6px] px-3 text-xs font-medium select-none',
             viewMode === 'preview'
-              ? 'bg-white text-zinc-900 shadow-[0_1px_2px_rgba(0,0,0,0.08)] dark:bg-zinc-800 dark:text-zinc-50'
+              ? 'text-zinc-900 dark:text-zinc-50'
               : 'text-zinc-600 dark:text-zinc-400',
           ]"
           @click="viewMode = 'preview'"
@@ -304,497 +309,505 @@ function applyAlertFilters(alert) {
     </div>
 
     <div class="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
-      <!-- Main Edit Form -->
-      <form
-        v-if="viewMode === 'edit'"
-        class="space-y-5 rounded-2xl bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)] ring-1 ring-zinc-950/[0.07] sm:p-6 dark:bg-zinc-900/90 dark:ring-white/[0.08]"
-        @submit.prevent="handleSaveProfile"
-      >
-        <div
-          class="flex items-center justify-between rounded-xl bg-zinc-50 px-4 py-3 dark:bg-zinc-950/60"
+      <Transition name="surface-swap" mode="out-in">
+        <!-- Main Edit Form -->
+        <form
+          v-if="viewMode === 'edit'"
+          key="edit"
+          class="space-y-5 rounded-2xl bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)] ring-1 ring-zinc-950/[0.07] sm:p-6 dark:bg-zinc-900/90 dark:ring-white/[0.08]"
+          @submit.prevent="handleSaveProfile"
         >
-          <BaseCheckbox v-model="form.openToWork" :label="t('profile.openToWorkLabel')" />
-        </div>
-
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <BaseInput
-            id="profile-fullname"
-            v-model="form.fullName"
-            :label="t('drawer.fullName')"
-            :placeholder="t('drawer.fullNamePlaceholder')"
-          />
-          <BaseInput
-            id="profile-headline"
-            v-model="form.headline"
-            :label="t('profile.headlineLabel')"
-            :placeholder="t('profile.headlinePlaceholder')"
-          />
-        </div>
-
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <BaseInput
-            id="profile-phone"
-            v-model="form.phone"
-            :label="t('profile.phoneLabel')"
-            type="tel"
-            inputmode="tel"
-          />
-          <BaseInput
-            id="profile-telegram"
-            v-model="form.telegram"
-            :label="t('profile.telegramLabel')"
-            :placeholder="t('drawer.telegramPlaceholder')"
-          />
-        </div>
-
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <BaseSelect
-            id="profile-location"
-            v-model="form.location"
-            :label="t('profile.locationLabel')"
-            :options="locationOptions"
-          />
-          <BaseInput
-            id="profile-salary"
-            v-model="form.expectedSalary"
-            :label="t('profile.expectedSalaryLabel')"
-            type="number"
-            inputmode="numeric"
-          />
-          <BaseSelect
-            id="profile-currency"
-            v-model="form.currency"
-            :label="t('postModal.currency')"
-            :options="currencyOptions"
-          />
-        </div>
-
-        <!-- Portfolio & Social Links -->
-        <div class="border-t border-zinc-100 pt-5 dark:border-zinc-800/80">
-          <h2 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-            {{ t('profile.linksSectionTitle') }}
-          </h2>
-          <div class="mt-3 grid grid-cols-1 gap-3.5 sm:grid-cols-3">
-            <BaseInput
-              id="profile-portfolio-url"
-              v-model="form.portfolioUrl"
-              :label="t('profile.portfolioUrlLabel')"
-              type="url"
-              :placeholder="t('profile.portfolioUrlPlaceholder')"
-            />
-            <BaseInput
-              id="profile-github-url"
-              v-model="form.githubUrl"
-              :label="t('profile.githubUrlLabel')"
-              type="url"
-              :placeholder="t('profile.githubUrlPlaceholder')"
-            />
-            <BaseInput
-              id="profile-linkedin-url"
-              v-model="form.linkedinUrl"
-              :label="t('profile.linkedinUrlLabel')"
-              type="url"
-              :placeholder="t('profile.linkedinUrlPlaceholder')"
-            />
-          </div>
-        </div>
-
-        <!-- Featured Portfolio Projects -->
-        <div class="border-t border-zinc-100 pt-5 dark:border-zinc-800/80">
-          <div class="flex flex-wrap items-start justify-between gap-3">
-            <div>
-              <h2 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                {{ t('profile.projectsSectionTitle') }}
-              </h2>
-              <p class="mt-0.5 max-w-[65ch] text-xs text-zinc-500 dark:text-zinc-400">
-                {{ t('profile.projectsSectionSub') }}
-              </p>
-            </div>
-            <BaseButton v-if="!isProjectFormOpen" variant="secondary" @click="openAddProject">
-              {{ t('profile.addProjectBtn') }}
-            </BaseButton>
-          </div>
-
-          <!-- Inline Project Composer -->
           <div
-            v-if="isProjectFormOpen"
-            class="mt-3.5 space-y-3.5 rounded-xl bg-zinc-50 p-4 ring-1 ring-zinc-950/[0.06] dark:bg-zinc-950/60 dark:ring-white/[0.08]"
+            class="flex items-center justify-between rounded-xl bg-zinc-50 px-4 py-3 dark:bg-zinc-950/60"
           >
-            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <BaseInput
-                id="project-title"
-                v-model="projectDraft.title"
-                :label="t('profile.projectTitleLabel')"
-                :placeholder="t('profile.projectTitlePlaceholder')"
-                :error="projectDraft.error ? t(`profile.${projectDraft.error}`) : ''"
-                @update:model-value="projectDraft.error = ''"
-              />
-              <BaseInput
-                id="project-role"
-                v-model="projectDraft.role"
-                :label="t('profile.projectRoleLabel')"
-                :placeholder="t('profile.projectRolePlaceholder')"
-              />
-            </div>
-
-            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <BaseInput
-                id="project-url"
-                v-model="projectDraft.url"
-                :label="t('profile.projectUrlLabel')"
-                type="url"
-                :placeholder="t('profile.projectUrlPlaceholder')"
-              />
-              <BaseInput
-                id="project-tech"
-                v-model="projectDraft.techInput"
-                :label="t('profile.projectTechLabel')"
-                :placeholder="t('profile.projectTechPlaceholder')"
-              />
-            </div>
-
-            <div>
-              <label
-                for="project-desc"
-                class="block text-sm font-medium text-zinc-800 select-none dark:text-zinc-200"
-              >
-                {{ t('profile.projectDescLabel') }}
-              </label>
-              <textarea
-                id="project-desc"
-                v-model="projectDraft.description"
-                rows="2"
-                :placeholder="t('profile.projectDescPlaceholder')"
-                class="profile-input mt-1.5 block w-full rounded-lg bg-white p-3 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500"
-              />
-            </div>
-
-            <div class="flex items-center justify-end gap-2">
-              <BaseButton variant="ghost" @click="cancelProjectDraft">
-                {{ t('profile.cancelProjectBtn') }}
-              </BaseButton>
-              <BaseButton variant="primary" @click="saveProjectDraft">
-                {{ t('profile.saveProjectBtn') }}
-              </BaseButton>
-            </div>
+            <BaseCheckbox v-model="form.openToWork" :label="t('profile.openToWorkLabel')" />
           </div>
 
-          <p
-            v-if="form.portfolioProjects.length === 0 && !isProjectFormOpen"
-            class="mt-3 rounded-xl border border-dashed border-zinc-200 px-4 py-5 text-center text-xs text-zinc-500 dark:border-zinc-800 dark:text-zinc-400"
-          >
-            {{ t('profile.emptyProjects') }}
-          </p>
-
-          <div v-else-if="form.portfolioProjects.length > 0" class="mt-3.5 space-y-3">
-            <article
-              v-for="project in form.portfolioProjects"
-              :key="project.id"
-              class="rounded-xl bg-zinc-50 p-4 ring-1 ring-zinc-950/[0.05] dark:bg-zinc-950/60 dark:ring-white/[0.06]"
-            >
-              <div class="flex flex-wrap items-start justify-between gap-2">
-                <div class="min-w-0">
-                  <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                    {{ project.title }}
-                  </h3>
-                  <p v-if="project.role" class="text-xs text-zinc-500 dark:text-zinc-400">
-                    {{ project.role }}
-                  </p>
-                </div>
-
-                <div class="flex items-center gap-2 text-xs">
-                  <a
-                    v-if="project.url"
-                    :href="project.url"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="tactile-text-btn font-medium text-zinc-700 underline decoration-zinc-300 underline-offset-2 dark:text-zinc-200 dark:decoration-zinc-700"
-                  >
-                    {{ t('profile.visitProject') }} ↗
-                  </a>
-                  <button
-                    type="button"
-                    class="tactile-text-btn cursor-pointer font-medium text-zinc-600 dark:text-zinc-400"
-                    @click="openEditProject(project)"
-                  >
-                    {{ t('profile.editProjectBtn') }}
-                  </button>
-                  <button
-                    type="button"
-                    class="tactile-text-btn cursor-pointer font-medium text-red-600 dark:text-red-400"
-                    @click="removeProject(project.id)"
-                  >
-                    {{ t('profile.removeProjectBtn') }}
-                  </button>
-                </div>
-              </div>
-
-              <p
-                v-if="project.description"
-                class="mt-2 max-w-[65ch] text-xs leading-relaxed text-zinc-600 dark:text-zinc-400"
-              >
-                {{ project.description }}
-              </p>
-
-              <div v-if="project.techStack?.length > 0" class="mt-2.5 flex flex-wrap gap-1.5">
-                <span
-                  v-for="(tag, idx) in project.techStack"
-                  :key="idx"
-                  class="rounded-md bg-white px-2 py-0.5 text-[11px] font-medium text-zinc-700 ring-1 ring-zinc-950/[0.06] dark:bg-zinc-900 dark:text-zinc-300 dark:ring-white/10"
-                >
-                  {{ tag }}
-                </span>
-              </div>
-            </article>
-          </div>
-        </div>
-
-        <!-- Skills Tag Builder -->
-        <div class="border-t border-zinc-100 pt-5 dark:border-zinc-800/80">
-          <label
-            for="profile-skill-input"
-            class="mb-1.5 block text-sm font-medium text-zinc-800 select-none dark:text-zinc-200"
-          >
-            {{ t('profile.skillsLabel') }}
-          </label>
-          <div class="flex gap-2">
-            <input
-              id="profile-skill-input"
-              v-model="newSkill"
-              type="text"
-              :placeholder="t('profile.addSkillPlaceholder')"
-              class="profile-input h-10 min-w-0 flex-1 rounded-lg bg-white px-3 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none dark:bg-zinc-950/60 dark:text-zinc-100 dark:placeholder:text-zinc-500"
-              @keydown.enter.prevent="addSkill"
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <BaseInput
+              id="profile-fullname"
+              v-model="form.fullName"
+              :label="t('drawer.fullName')"
+              :placeholder="t('drawer.fullNamePlaceholder')"
             />
-            <BaseButton variant="secondary" @click="addSkill">
-              {{ t('profile.addSkillBtn') }}
-            </BaseButton>
+            <BaseInput
+              id="profile-headline"
+              v-model="form.headline"
+              :label="t('profile.headlineLabel')"
+              :placeholder="t('profile.headlinePlaceholder')"
+            />
           </div>
 
-          <div v-if="form.skills.length > 0" class="mt-2.5 flex flex-wrap gap-1.5">
-            <span
-              v-for="skill in form.skills"
-              :key="skill"
-              class="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 py-1 pr-2 pl-2.5 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"
-            >
-              <span>{{ skill }}</span>
-              <button
-                type="button"
-                :aria-label="`Remove ${skill}`"
-                class="inline-flex h-4 w-4 cursor-pointer items-center justify-center rounded-full text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-100"
-                @click="removeSkill(skill)"
-              >
-                ×
-              </button>
-            </span>
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <BaseInput
+              id="profile-phone"
+              v-model="form.phone"
+              :label="t('profile.phoneLabel')"
+              type="tel"
+              inputmode="tel"
+            />
+            <BaseInput
+              id="profile-telegram"
+              v-model="form.telegram"
+              :label="t('profile.telegramLabel')"
+              :placeholder="t('drawer.telegramPlaceholder')"
+            />
           </div>
-        </div>
 
-        <!-- Default CV -->
-        <div>
-          <div class="flex items-center justify-between gap-2">
-            <label
-              for="profile-cv-input"
-              class="text-sm font-medium text-zinc-800 select-none dark:text-zinc-200"
-            >
-              {{ t('profile.defaultCvLabel') }}
-            </label>
-            <button
-              type="button"
-              class="tactile-text-btn cursor-pointer text-xs font-medium text-zinc-600 underline decoration-zinc-300 underline-offset-2 dark:text-zinc-300 dark:decoration-zinc-600"
-              @click="useSampleCv"
-            >
-              {{ t('drawer.useSampleCv') }}
-            </button>
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <BaseSelect
+              id="profile-location"
+              v-model="form.location"
+              :label="t('profile.locationLabel')"
+              :options="locationOptions"
+            />
+            <BaseInput
+              id="profile-salary"
+              v-model="form.expectedSalary"
+              :label="t('profile.expectedSalaryLabel')"
+              type="number"
+              inputmode="numeric"
+            />
+            <BaseSelect
+              id="profile-currency"
+              v-model="form.currency"
+              :label="t('postModal.currency')"
+              :options="currencyOptions"
+            />
           </div>
-          <label
-            for="profile-cv-input"
-            data-pressable
-            class="mt-1.5 flex cursor-pointer items-center justify-between gap-3 rounded-xl border border-dashed border-zinc-300 bg-zinc-50 px-4 py-3 text-sm text-zinc-600 select-none dark:border-zinc-700 dark:bg-zinc-950/60 dark:text-zinc-400"
-          >
-            <span class="truncate">{{ form.cvFileName || t('drawer.chooseFilePlaceholder') }}</span>
-            <span
-              class="shrink-0 rounded-md bg-white px-2.5 py-1 text-xs font-medium text-zinc-800 ring-1 ring-zinc-950/10 dark:bg-zinc-800 dark:text-zinc-200 dark:ring-white/10"
-            >
-              {{ t('drawer.browseBtn') }}
-            </span>
-          </label>
-          <input
-            id="profile-cv-input"
-            type="file"
-            accept=".pdf,.doc,.docx"
-            class="sr-only"
-            @change="handleCvSelect"
-          />
-        </div>
 
-        <!-- Bio -->
-        <div>
-          <label
-            for="profile-bio"
-            class="block text-sm font-medium text-zinc-800 select-none dark:text-zinc-200"
-          >
-            {{ t('profile.bioLabel') }}
-          </label>
-          <textarea
-            id="profile-bio"
-            v-model="form.bio"
-            rows="3"
-            :placeholder="t('profile.bioPlaceholder')"
-            class="profile-input mt-1.5 block w-full rounded-lg bg-white p-3 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none dark:bg-zinc-950/60 dark:text-zinc-100 dark:placeholder:text-zinc-500"
-          />
-        </div>
-
-        <div class="border-t border-zinc-100 pt-4 dark:border-zinc-800/80">
-          <BaseButton type="submit" variant="primary" :loading="isSavingProfile">
-            {{ t('profile.saveProfileBtn') }}
-            <template #loading>{{ t('profile.savingProfile') }}</template>
-          </BaseButton>
-        </div>
-      </form>
-
-      <!-- Employer Showcase Preview -->
-      <div
-        v-else
-        class="space-y-6 rounded-2xl bg-white p-6 shadow-[0_1px_2px_rgba(0,0,0,0.03)] ring-1 ring-zinc-950/[0.07] dark:bg-zinc-900/90 dark:ring-white/[0.08]"
-      >
-        <div class="flex flex-wrap items-start justify-between gap-4">
-          <div class="flex items-start gap-3.5">
-            <div
-              class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-zinc-900 text-base font-semibold text-white dark:bg-zinc-100 dark:text-zinc-900"
-              aria-hidden="true"
-            >
-              {{ initials }}
-            </div>
-            <div>
-              <div class="flex flex-wrap items-center gap-2">
-                <h2
-                  class="text-xl font-semibold tracking-[-0.02em] text-zinc-900 dark:text-zinc-50"
-                >
-                  {{ form.fullName || t('drawer.fullNamePlaceholder') }}
-                </h2>
-                <span
-                  v-if="form.openToWork"
-                  class="rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-medium text-emerald-700 ring-1 ring-emerald-600/15 dark:bg-emerald-500/10 dark:text-emerald-300 dark:ring-emerald-400/20"
-                >
-                  {{ t('profile.openToWorkLabel') }}
-                </span>
-              </div>
-              <p class="mt-0.5 text-sm font-medium text-zinc-600 dark:text-zinc-300">
-                {{ form.headline || '—' }}
-              </p>
-              <p class="mt-1 text-xs text-zinc-500 tabular-nums dark:text-zinc-400">
-                {{ tLocation(form.location) }} · {{ previewSalaryText }} {{ t('board.perMonth') }}
-                <span v-if="form.telegram"> · Telegram: {{ form.telegram }}</span>
-              </p>
+          <!-- Portfolio & Social Links -->
+          <div class="border-t border-zinc-100 pt-5 dark:border-zinc-800/80">
+            <h2 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+              {{ t('profile.linksSectionTitle') }}
+            </h2>
+            <div class="mt-3 grid grid-cols-1 gap-3.5 sm:grid-cols-3">
+              <BaseInput
+                id="profile-portfolio-url"
+                v-model="form.portfolioUrl"
+                :label="t('profile.portfolioUrlLabel')"
+                type="url"
+                :placeholder="t('profile.portfolioUrlPlaceholder')"
+              />
+              <BaseInput
+                id="profile-github-url"
+                v-model="form.githubUrl"
+                :label="t('profile.githubUrlLabel')"
+                type="url"
+                :placeholder="t('profile.githubUrlPlaceholder')"
+              />
+              <BaseInput
+                id="profile-linkedin-url"
+                v-model="form.linkedinUrl"
+                :label="t('profile.linkedinUrlLabel')"
+                type="url"
+                :placeholder="t('profile.linkedinUrlPlaceholder')"
+              />
             </div>
           </div>
 
-          <span
-            v-if="form.cvFileName"
-            class="inline-flex items-center gap-1.5 rounded-lg bg-zinc-100 px-3 py-1.5 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"
-          >
-            {{ form.cvFileName }}
-          </span>
-        </div>
-
-        <p
-          v-if="form.bio"
-          class="max-w-[65ch] text-sm leading-relaxed text-zinc-600 dark:text-zinc-300"
-        >
-          {{ form.bio }}
-        </p>
-
-        <div v-if="normalizedPreviewLinks.length > 0" class="flex flex-wrap gap-2">
-          <a
-            v-for="link in normalizedPreviewLinks"
-            :key="link.key"
-            :href="link.href"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="tactile-text-btn inline-flex h-8 items-center gap-1.5 rounded-lg bg-zinc-100 px-3 text-xs font-medium text-zinc-800 ring-1 ring-zinc-950/[0.06] dark:bg-zinc-800 dark:text-zinc-200 dark:ring-white/10"
-          >
-            <span>{{ link.label }}</span>
-            <span aria-hidden="true">↗</span>
-          </a>
-        </div>
-
-        <div v-if="form.skills.length > 0">
-          <h3
-            class="text-xs font-semibold tracking-wider text-zinc-500 uppercase dark:text-zinc-400"
-          >
-            {{ t('profile.skillsLabel') }}
-          </h3>
-          <div class="mt-2 flex flex-wrap gap-1.5">
-            <span
-              v-for="skill in form.skills"
-              :key="skill"
-              class="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"
-            >
-              {{ skill }}
-            </span>
-          </div>
-        </div>
-
-        <div class="border-t border-zinc-100 pt-5 dark:border-zinc-800/80">
-          <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-            {{ t('profile.projectsSectionTitle') }}
-          </h3>
-
-          <p
-            v-if="form.portfolioProjects.length === 0"
-            class="mt-2 text-xs text-zinc-500 dark:text-zinc-400"
-          >
-            {{ t('profile.emptyProjects') }}
-          </p>
-
-          <div v-else class="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2">
-            <article
-              v-for="project in form.portfolioProjects"
-              :key="project.id"
-              class="flex flex-col justify-between rounded-xl bg-zinc-50 p-4 ring-1 ring-zinc-950/[0.06] dark:bg-zinc-950/60 dark:ring-white/[0.08]"
-            >
+          <!-- Featured Portfolio Projects -->
+          <div class="border-t border-zinc-100 pt-5 dark:border-zinc-800/80">
+            <div class="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <div class="flex items-start justify-between gap-2">
-                  <div>
-                    <h4 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                <h2 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                  {{ t('profile.projectsSectionTitle') }}
+                </h2>
+                <p class="mt-0.5 max-w-[65ch] text-xs text-zinc-500 dark:text-zinc-400">
+                  {{ t('profile.projectsSectionSub') }}
+                </p>
+              </div>
+              <BaseButton v-if="!isProjectFormOpen" variant="secondary" @click="openAddProject">
+                {{ t('profile.addProjectBtn') }}
+              </BaseButton>
+            </div>
+
+            <!-- Inline Project Composer -->
+            <div
+              v-if="isProjectFormOpen"
+              class="mt-3.5 space-y-3.5 rounded-xl bg-zinc-50 p-4 ring-1 ring-zinc-950/[0.06] dark:bg-zinc-950/60 dark:ring-white/[0.08]"
+            >
+              <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <BaseInput
+                  id="project-title"
+                  v-model="projectDraft.title"
+                  :label="t('profile.projectTitleLabel')"
+                  :placeholder="t('profile.projectTitlePlaceholder')"
+                  :error="projectDraft.error ? t(`profile.${projectDraft.error}`) : ''"
+                  @update:model-value="projectDraft.error = ''"
+                />
+                <BaseInput
+                  id="project-role"
+                  v-model="projectDraft.role"
+                  :label="t('profile.projectRoleLabel')"
+                  :placeholder="t('profile.projectRolePlaceholder')"
+                />
+              </div>
+
+              <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <BaseInput
+                  id="project-url"
+                  v-model="projectDraft.url"
+                  :label="t('profile.projectUrlLabel')"
+                  type="url"
+                  :placeholder="t('profile.projectUrlPlaceholder')"
+                />
+                <BaseInput
+                  id="project-tech"
+                  v-model="projectDraft.techInput"
+                  :label="t('profile.projectTechLabel')"
+                  :placeholder="t('profile.projectTechPlaceholder')"
+                />
+              </div>
+
+              <div>
+                <label
+                  for="project-desc"
+                  class="block text-sm font-medium text-zinc-800 select-none dark:text-zinc-200"
+                >
+                  {{ t('profile.projectDescLabel') }}
+                </label>
+                <textarea
+                  id="project-desc"
+                  v-model="projectDraft.description"
+                  rows="2"
+                  :placeholder="t('profile.projectDescPlaceholder')"
+                  class="profile-input mt-1.5 block w-full rounded-lg bg-white p-3 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500"
+                />
+              </div>
+
+              <div class="flex items-center justify-end gap-2">
+                <BaseButton variant="ghost" @click="cancelProjectDraft">
+                  {{ t('profile.cancelProjectBtn') }}
+                </BaseButton>
+                <BaseButton variant="primary" @click="saveProjectDraft">
+                  {{ t('profile.saveProjectBtn') }}
+                </BaseButton>
+              </div>
+            </div>
+
+            <p
+              v-if="form.portfolioProjects.length === 0 && !isProjectFormOpen"
+              class="mt-3 rounded-xl border border-dashed border-zinc-200 px-4 py-5 text-center text-xs text-zinc-500 dark:border-zinc-800 dark:text-zinc-400"
+            >
+              {{ t('profile.emptyProjects') }}
+            </p>
+
+            <div v-else-if="form.portfolioProjects.length > 0" class="mt-3.5 space-y-3">
+              <article
+                v-for="project in form.portfolioProjects"
+                :key="project.id"
+                class="rounded-xl bg-zinc-50 p-4 ring-1 ring-zinc-950/[0.05] dark:bg-zinc-950/60 dark:ring-white/[0.06]"
+              >
+                <div class="flex flex-wrap items-start justify-between gap-2">
+                  <div class="min-w-0">
+                    <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                       {{ project.title }}
-                    </h4>
+                    </h3>
                     <p v-if="project.role" class="text-xs text-zinc-500 dark:text-zinc-400">
                       {{ project.role }}
                     </p>
                   </div>
-                  <a
-                    v-if="project.url"
-                    :href="project.url"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="tactile-text-btn shrink-0 text-xs font-medium text-zinc-700 underline decoration-zinc-300 underline-offset-2 dark:text-zinc-200 dark:decoration-zinc-700"
-                  >
-                    {{ t('profile.visitProject') }} ↗
-                  </a>
+
+                  <div class="flex items-center gap-2 text-xs">
+                    <a
+                      v-if="project.url"
+                      :href="project.url"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="tactile-text-btn font-medium text-zinc-700 underline decoration-zinc-300 underline-offset-2 dark:text-zinc-200 dark:decoration-zinc-700"
+                    >
+                      {{ t('profile.visitProject') }} ↗
+                    </a>
+                    <button
+                      type="button"
+                      class="tactile-text-btn cursor-pointer font-medium text-zinc-600 dark:text-zinc-400"
+                      @click="openEditProject(project)"
+                    >
+                      {{ t('profile.editProjectBtn') }}
+                    </button>
+                    <button
+                      type="button"
+                      class="tactile-text-btn cursor-pointer font-medium text-red-600 dark:text-red-400"
+                      @click="removeProject(project.id)"
+                    >
+                      {{ t('profile.removeProjectBtn') }}
+                    </button>
+                  </div>
                 </div>
+
                 <p
                   v-if="project.description"
                   class="mt-2 max-w-[65ch] text-xs leading-relaxed text-zinc-600 dark:text-zinc-400"
                 >
                   {{ project.description }}
                 </p>
-              </div>
 
-              <div v-if="project.techStack?.length > 0" class="mt-3 flex flex-wrap gap-1.5">
-                <span
-                  v-for="(tag, idx) in project.techStack"
-                  :key="idx"
-                  class="rounded-md bg-white px-2 py-0.5 text-[11px] font-medium text-zinc-700 ring-1 ring-zinc-950/[0.06] dark:bg-zinc-900 dark:text-zinc-300 dark:ring-white/10"
+                <div v-if="project.techStack?.length > 0" class="mt-2.5 flex flex-wrap gap-1.5">
+                  <span
+                    v-for="(tag, idx) in project.techStack"
+                    :key="idx"
+                    class="rounded-md bg-white px-2 py-0.5 text-[11px] font-medium text-zinc-700 ring-1 ring-zinc-950/[0.06] dark:bg-zinc-900 dark:text-zinc-300 dark:ring-white/10"
+                  >
+                    {{ tag }}
+                  </span>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <!-- Skills Tag Builder -->
+          <div class="border-t border-zinc-100 pt-5 dark:border-zinc-800/80">
+            <label
+              for="profile-skill-input"
+              class="mb-1.5 block text-sm font-medium text-zinc-800 select-none dark:text-zinc-200"
+            >
+              {{ t('profile.skillsLabel') }}
+            </label>
+            <div class="flex gap-2">
+              <input
+                id="profile-skill-input"
+                v-model="newSkill"
+                type="text"
+                :placeholder="t('profile.addSkillPlaceholder')"
+                class="profile-input h-10 min-w-0 flex-1 rounded-lg bg-white px-3 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none dark:bg-zinc-950/60 dark:text-zinc-100 dark:placeholder:text-zinc-500"
+                @keydown.enter.prevent="addSkill"
+              />
+              <BaseButton variant="secondary" @click="addSkill">
+                {{ t('profile.addSkillBtn') }}
+              </BaseButton>
+            </div>
+
+            <div v-if="form.skills.length > 0" class="mt-2.5 flex flex-wrap gap-1.5">
+              <span
+                v-for="skill in form.skills"
+                :key="skill"
+                class="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 py-1 pr-2 pl-2.5 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"
+              >
+                <span>{{ skill }}</span>
+                <button
+                  type="button"
+                  :aria-label="`Remove ${skill}`"
+                  class="inline-flex h-4 w-4 cursor-pointer items-center justify-center rounded-full text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-100"
+                  @click="removeSkill(skill)"
                 >
-                  {{ tag }}
-                </span>
+                  ×
+                </button>
+              </span>
+            </div>
+          </div>
+
+          <!-- Default CV -->
+          <div>
+            <div class="flex items-center justify-between gap-2">
+              <label
+                for="profile-cv-input"
+                class="text-sm font-medium text-zinc-800 select-none dark:text-zinc-200"
+              >
+                {{ t('profile.defaultCvLabel') }}
+              </label>
+              <button
+                type="button"
+                class="tactile-text-btn cursor-pointer text-xs font-medium text-zinc-600 underline decoration-zinc-300 underline-offset-2 dark:text-zinc-300 dark:decoration-zinc-600"
+                @click="useSampleCv"
+              >
+                {{ t('drawer.useSampleCv') }}
+              </button>
+            </div>
+            <label
+              for="profile-cv-input"
+              data-pressable
+              class="mt-1.5 flex cursor-pointer items-center justify-between gap-3 rounded-xl border border-dashed border-zinc-300 bg-zinc-50 px-4 py-3 text-sm text-zinc-600 select-none dark:border-zinc-700 dark:bg-zinc-950/60 dark:text-zinc-400"
+            >
+              <span class="truncate">{{
+                form.cvFileName || t('drawer.chooseFilePlaceholder')
+              }}</span>
+              <span
+                class="shrink-0 rounded-md bg-white px-2.5 py-1 text-xs font-medium text-zinc-800 ring-1 ring-zinc-950/10 dark:bg-zinc-800 dark:text-zinc-200 dark:ring-white/10"
+              >
+                {{ t('drawer.browseBtn') }}
+              </span>
+            </label>
+            <input
+              id="profile-cv-input"
+              type="file"
+              accept=".pdf,.doc,.docx"
+              class="sr-only"
+              @change="handleCvSelect"
+            />
+          </div>
+
+          <!-- Bio -->
+          <div>
+            <label
+              for="profile-bio"
+              class="block text-sm font-medium text-zinc-800 select-none dark:text-zinc-200"
+            >
+              {{ t('profile.bioLabel') }}
+            </label>
+            <textarea
+              id="profile-bio"
+              v-model="form.bio"
+              rows="3"
+              :placeholder="t('profile.bioPlaceholder')"
+              class="profile-input mt-1.5 block w-full rounded-lg bg-white p-3 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none dark:bg-zinc-950/60 dark:text-zinc-100 dark:placeholder:text-zinc-500"
+            />
+          </div>
+
+          <div class="border-t border-zinc-100 pt-4 dark:border-zinc-800/80">
+            <BaseButton type="submit" variant="primary" :loading="isSavingProfile">
+              {{ t('profile.saveProfileBtn') }}
+              <template #loading>{{ t('profile.savingProfile') }}</template>
+            </BaseButton>
+          </div>
+        </form>
+
+        <!-- Employer Showcase Preview -->
+        <div
+          v-else
+          key="preview"
+          class="space-y-6 rounded-2xl bg-white p-6 shadow-[0_1px_2px_rgba(0,0,0,0.03)] ring-1 ring-zinc-950/[0.07] dark:bg-zinc-900/90 dark:ring-white/[0.08]"
+        >
+          <div class="flex flex-wrap items-start justify-between gap-4">
+            <div class="flex items-start gap-3.5">
+              <div
+                class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-zinc-900 text-base font-semibold text-white dark:bg-zinc-100 dark:text-zinc-900"
+                aria-hidden="true"
+              >
+                {{ initials }}
               </div>
-            </article>
+              <div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <h2
+                    class="text-xl font-semibold tracking-[-0.02em] text-zinc-900 dark:text-zinc-50"
+                  >
+                    {{ form.fullName || t('drawer.fullNamePlaceholder') }}
+                  </h2>
+                  <span
+                    v-if="form.openToWork"
+                    class="rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-medium text-emerald-700 ring-1 ring-emerald-600/15 dark:bg-emerald-500/10 dark:text-emerald-300 dark:ring-emerald-400/20"
+                  >
+                    {{ t('profile.openToWorkLabel') }}
+                  </span>
+                </div>
+                <p class="mt-0.5 text-sm font-medium text-zinc-600 dark:text-zinc-300">
+                  {{ form.headline || '—' }}
+                </p>
+                <p class="mt-1 text-xs text-zinc-500 tabular-nums dark:text-zinc-400">
+                  {{ tLocation(form.location) }} ·
+                  <span data-currency-anim class="inline-block">{{ previewSalaryText }}</span>
+                  {{ t('board.perMonth') }}
+                  <span v-if="form.telegram"> · Telegram: {{ form.telegram }}</span>
+                </p>
+              </div>
+            </div>
+
+            <span
+              v-if="form.cvFileName"
+              class="inline-flex items-center gap-1.5 rounded-lg bg-zinc-100 px-3 py-1.5 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"
+            >
+              {{ form.cvFileName }}
+            </span>
+          </div>
+
+          <p
+            v-if="form.bio"
+            class="max-w-[65ch] text-sm leading-relaxed text-zinc-600 dark:text-zinc-300"
+          >
+            {{ form.bio }}
+          </p>
+
+          <div v-if="normalizedPreviewLinks.length > 0" class="flex flex-wrap gap-2">
+            <a
+              v-for="link in normalizedPreviewLinks"
+              :key="link.key"
+              :href="link.href"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="tactile-text-btn inline-flex h-8 items-center gap-1.5 rounded-lg bg-zinc-100 px-3 text-xs font-medium text-zinc-800 ring-1 ring-zinc-950/[0.06] dark:bg-zinc-800 dark:text-zinc-200 dark:ring-white/10"
+            >
+              <span>{{ link.label }}</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+
+          <div v-if="form.skills.length > 0">
+            <h3
+              class="text-xs font-semibold tracking-wider text-zinc-500 uppercase dark:text-zinc-400"
+            >
+              {{ t('profile.skillsLabel') }}
+            </h3>
+            <div class="mt-2 flex flex-wrap gap-1.5">
+              <span
+                v-for="skill in form.skills"
+                :key="skill"
+                class="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"
+              >
+                {{ skill }}
+              </span>
+            </div>
+          </div>
+
+          <div class="border-t border-zinc-100 pt-5 dark:border-zinc-800/80">
+            <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+              {{ t('profile.projectsSectionTitle') }}
+            </h3>
+
+            <p
+              v-if="form.portfolioProjects.length === 0"
+              class="mt-2 text-xs text-zinc-500 dark:text-zinc-400"
+            >
+              {{ t('profile.emptyProjects') }}
+            </p>
+
+            <div v-else class="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2">
+              <article
+                v-for="project in form.portfolioProjects"
+                :key="project.id"
+                class="flex flex-col justify-between rounded-xl bg-zinc-50 p-4 ring-1 ring-zinc-950/[0.06] dark:bg-zinc-950/60 dark:ring-white/[0.08]"
+              >
+                <div>
+                  <div class="flex items-start justify-between gap-2">
+                    <div>
+                      <h4 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                        {{ project.title }}
+                      </h4>
+                      <p v-if="project.role" class="text-xs text-zinc-500 dark:text-zinc-400">
+                        {{ project.role }}
+                      </p>
+                    </div>
+                    <a
+                      v-if="project.url"
+                      :href="project.url"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="tactile-text-btn shrink-0 text-xs font-medium text-zinc-700 underline decoration-zinc-300 underline-offset-2 dark:text-zinc-200 dark:decoration-zinc-700"
+                    >
+                      {{ t('profile.visitProject') }} ↗
+                    </a>
+                  </div>
+                  <p
+                    v-if="project.description"
+                    class="mt-2 max-w-[65ch] text-xs leading-relaxed text-zinc-600 dark:text-zinc-400"
+                  >
+                    {{ project.description }}
+                  </p>
+                </div>
+
+                <div v-if="project.techStack?.length > 0" class="mt-3 flex flex-wrap gap-1.5">
+                  <span
+                    v-for="(tag, idx) in project.techStack"
+                    :key="idx"
+                    class="rounded-md bg-white px-2 py-0.5 text-[11px] font-medium text-zinc-700 ring-1 ring-zinc-950/[0.06] dark:bg-zinc-900 dark:text-zinc-300 dark:ring-white/10"
+                  >
+                    {{ tag }}
+                  </span>
+                </div>
+              </article>
+            </div>
           </div>
         </div>
-      </div>
+      </Transition>
 
       <!-- Right Sidebar: Completeness & Saved Alerts -->
       <div class="space-y-4">
@@ -883,10 +896,13 @@ function applyAlertFilters(alert) {
   box-shadow: 0 0 0 3px var(--input-ring-focus);
 }
 
+.mode-pill {
+  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 .mode-tab {
   transition:
     transform 140ms var(--ease-out),
-    background-color 150ms ease,
     color 150ms ease;
 }
 

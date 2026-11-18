@@ -191,7 +191,7 @@ function browseMatchingJobs() {
           <div class="text-xs font-medium text-zinc-500 dark:text-zinc-400">
             {{ t('calculator.netMonthlyTitle') }}
           </div>
-          <div class="mt-2 flex flex-wrap items-baseline gap-3">
+          <div data-currency-anim class="mt-2 flex flex-wrap items-baseline gap-3">
             <span
               class="text-3xl font-semibold tracking-[-0.02em] text-zinc-900 tabular-nums dark:text-zinc-50"
             >
@@ -214,7 +214,7 @@ function browseMatchingJobs() {
           </div>
 
           <div class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
-            <div class="rounded-xl bg-zinc-50 p-3.5 dark:bg-zinc-950/60">
+            <div data-currency-anim class="rounded-xl bg-zinc-50 p-3.5 dark:bg-zinc-950/60">
               <div class="text-xs text-zinc-500 dark:text-zinc-400">
                 {{ t('calculator.estimatedTaxTitle') }}
               </div>

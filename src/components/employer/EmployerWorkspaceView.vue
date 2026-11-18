@@ -559,7 +559,10 @@ async function handleDeleteJob(job) {
               <h2 class="mt-1.5 text-base font-semibold text-zinc-900 dark:text-zinc-50">
                 {{ job.displayTitle }}
               </h2>
-              <p class="mt-1 text-sm font-medium text-zinc-700 tabular-nums dark:text-zinc-300">
+              <p
+                data-currency-anim
+                class="mt-1 text-sm font-medium text-zinc-700 tabular-nums dark:text-zinc-300"
+              >
                 {{ formatSalaryRange(job.salaryMin, job.salaryMax, job.currency, displayCurrency) }}
                 <span class="text-xs font-normal text-zinc-500 dark:text-zinc-400">
                   {{ t('board.perMonth') }}

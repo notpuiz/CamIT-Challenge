@@ -75,7 +75,7 @@ function resolveOriginPoint(event) {
   }
 }
 
-function runFallbackButtonFade({ x, y, previousDark, reducedMotion }) {
+function runFallbackButtonFade({ x, y, endRadius, previousDark, reducedMotion }) {
   if (!document.body || typeof document.body.animate !== 'function') return
 
   const overlay = document.createElement('div')
@@ -84,21 +84,20 @@ function runFallbackButtonFade({ x, y, previousDark, reducedMotion }) {
   overlay.style.pointerEvents = 'none'
   overlay.style.zIndex = '9999'
   overlay.style.backgroundColor = previousDark ? '#09090b' : '#fafafa'
-  overlay.style.transformOrigin = `${x}px ${y}px`
   document.body.appendChild(overlay)
 
   const keyframes = reducedMotion
     ? [{ opacity: 0.65 }, { opacity: 0 }]
     : [
-        { opacity: 0.72, transform: 'scale(1)' },
-        { opacity: 0, transform: 'scale(1.04)' },
+        { clipPath: `circle(${endRadius}px at ${x}px ${y}px)`, opacity: 0.92 },
+        { clipPath: `circle(0px at ${x}px ${y}px)`, opacity: 0.2 },
       ]
 
   const animation = overlay.animate(
     keyframes,
     reducedMotion
       ? { duration: 180, easing: 'ease' }
-      : { duration: 300, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' },
+      : { duration: 400, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
   )
 
   const cleanup = () => {
@@ -146,7 +145,7 @@ export function useTheme() {
       root.classList.add('theme-switching')
       isDark.value = nextDark
       commitDomTheme(nextDark, { persist: true })
-      runFallbackButtonFade({ x, y, previousDark, reducedMotion })
+      runFallbackButtonFade({ x, y, endRadius, previousDark, reducedMotion })
 
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
@@ -200,16 +199,14 @@ export function useTheme() {
           [
             {
               clipPath: `circle(0px at ${x}px ${y}px)`,
-              opacity: 0,
             },
             {
               clipPath: `circle(${endRadius}px at ${x}px ${y}px)`,
-              opacity: 1,
             },
           ],
           {
-            duration: 380,
-            easing: 'cubic-bezier(0.23, 1, 0.32, 1)',
+            duration: 460,
+            easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
             fill: 'forwards',
             pseudoElement: '::view-transition-new(root)',
           },

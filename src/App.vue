@@ -39,7 +39,7 @@ onMounted(() => {
     <div v-else class="auth-ambient-bg flex min-h-svh flex-col text-zinc-900 dark:text-zinc-100">
       <AppNavbar />
 
-      <main class="w-full flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:py-7">
+      <main data-locale-stage class="w-full flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:py-7">
         <RouterView v-slot="{ Component, route: currentRoute }">
           <div :key="currentRoute.path" class="page-enter">
             <component :is="Component" />
@@ -59,14 +59,14 @@ onMounted(() => {
 <style scoped>
 .page-enter {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
   transition:
-    opacity 140ms var(--ease-out),
-    transform 140ms var(--ease-out);
+    opacity 210ms var(--ease-out),
+    transform 210ms var(--ease-out);
 
   @starting-style {
     opacity: 0;
-    transform: translateY(4px);
+    transform: translateY(7px) scale(0.996);
   }
 }
 

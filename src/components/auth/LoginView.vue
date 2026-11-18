@@ -155,6 +155,7 @@ async function handleResetSubmit() {
     </div>
 
     <div
+      data-locale-stage
       :class="[
         'auth-card w-full max-w-[420px] rounded-2xl bg-white p-7 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_12px_32px_-8px_rgba(0,0,0,0.07)] ring-1 ring-zinc-950/[0.07] sm:p-8 dark:bg-zinc-900/90 dark:shadow-[0_1px_2px_rgba(0,0,0,0.5),0_16px_40px_-8px_rgba(0,0,0,0.65),inset_0_1px_0_rgba(255,255,255,0.06)] dark:ring-white/[0.09]',
         isShaking ? 'auth-card--shake' : '',
