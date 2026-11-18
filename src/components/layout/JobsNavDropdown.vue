@@ -100,6 +100,15 @@ const menuItems = computed(() => {
       emphasizeCount: false,
       icon: 'calculator',
     },
+    {
+      id: 'proposal',
+      to: { name: 'proposal' },
+      label: t('nav.proposal'),
+      badge: '',
+      showTriggerCount: false,
+      emphasizeCount: false,
+      icon: 'proposal',
+    },
   )
 
   return items
@@ -285,6 +294,10 @@ onUnmounted(() => {
           <path d="M12 18h.01" />
           <path d="M8 18h.01" />
         </template>
+        <template v-else-if="displayItem.icon === 'proposal'">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+        </template>
         <template v-else>
           <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
           <path d="M14 2v4a2 2 0 0 0 2 2h4" />
@@ -405,6 +418,10 @@ onUnmounted(() => {
                   <path d="M8 14h.01" />
                   <path d="M12 18h.01" />
                   <path d="M8 18h.01" />
+                </template>
+                <template v-else-if="item.icon === 'proposal'">
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
                 </template>
                 <template v-else>
                   <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />

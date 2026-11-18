@@ -9,6 +9,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 import CandidateProfileView from '@/views/CandidateProfileView.vue'
 import CompaniesView from '@/views/CompaniesView.vue'
 import JobsBoardView from '@/views/JobsBoardView.vue'
+import ProposalView from '@/views/ProposalView.vue'
 import SalaryCalculatorView from '@/views/SalaryCalculatorView.vue'
 import SavedJobsView from '@/views/SavedJobsView.vue'
 
@@ -45,6 +46,14 @@ const router = createRouter({
       component: SalaryCalculatorView,
       meta: {
         titleKey: 'calculator',
+      },
+    },
+    {
+      path: '/proposal',
+      name: 'proposal',
+      component: ProposalView,
+      meta: {
+        titleKey: 'proposal',
       },
     },
     {

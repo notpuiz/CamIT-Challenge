@@ -116,6 +116,11 @@ function handleResetDemo() {
             </RouterLink>
           </li>
           <li>
+            <RouterLink :to="{ name: 'proposal' }" class="tactile-text-btn">
+              {{ t('nav.proposal') }}
+            </RouterLink>
+          </li>
+          <li>
             <RouterLink :to="{ name: 'employer' }" class="tactile-text-btn">
               {{ t('nav.employerHub') }}
             </RouterLink>

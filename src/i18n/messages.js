@@ -8,6 +8,7 @@ export const MESSAGES = {
       login: 'Sign in — JobspaceKH',
       companies: 'Companies Hiring in Cambodia — JobspaceKH',
       calculator: 'Salary & Tax Calculator — JobspaceKH',
+      proposal: 'Workflow & Project Proposal — JobspaceKH',
       profile: 'My Candidate Profile — JobspaceKH',
     },
     nav: {
@@ -16,6 +17,7 @@ export const MESSAGES = {
       myApplications: 'My Applications',
       companies: 'Companies',
       salaryCalculator: 'Salary Calculator',
+      proposal: 'Project Proposal',
       myProfile: 'My Profile',
       cvReadyBadge: 'CV',
       jobsMenuAria: 'Job seeker navigation',
@@ -458,6 +460,7 @@ export const MESSAGES = {
       login: 'ចូលគណនី — JobspaceKH',
       companies: 'ក្រុមហ៊ុនដែលកំពុងជ្រើសរើសបុគ្គលិក — JobspaceKH',
       calculator: 'កម្មវិធីគណនាប្រាក់ខែ និងពន្ធ — JobspaceKH',
+      proposal: 'លំហូរប្រព័ន្ធ និងសំណើគម្រោង — JobspaceKH',
       profile: 'ប្រវត្តិរូបអ្នកស្វែងរកការងារ — JobspaceKH',
     },
     nav: {
@@ -466,6 +469,7 @@ export const MESSAGES = {
       myApplications: 'ការដាក់ពាក្យរបស់ខ្ញុំ',
       companies: 'ក្រុមហ៊ុន',
       salaryCalculator: 'គណនាប្រាក់ខែ',
+      proposal: 'សំណើគម្រោង',
       myProfile: 'ប្រវត្តិរូបខ្ញុំ',
       cvReadyBadge: 'CV',
       jobsMenuAria: 'ម៉ឺនុយស្វែងរកការងារ',
